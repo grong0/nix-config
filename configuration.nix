@@ -52,7 +52,8 @@
 
 	# Enable the GNOME Desktop Environment.
 	services.xserver.displayManager.gdm.enable = true;
-	services.xserver.desktopManager.gnome.enable = true;
+	# services.xserver.desktopManager.gnome.enable = true;
+	services.xserver.displayManager.gdm.wayland = true;
 
 	# xdg = {
 	#   autostart.enable = true;
@@ -169,10 +170,10 @@
 	programs.zsh.enable = true;
 	programs.direnv.enable = true;
 	programs.java.enable = true;
-	# programs.hyprland = {
-	# 	enable = true;
-	# 	xwayland.enable = true;
-	# };
+	programs.hyprland = {
+		enable = true;
+		xwayland.enable = true;
+	};
 
 	# List services that you want to enable:
 
@@ -196,17 +197,17 @@
 	# networking.firewall.enable = false;
 
   nixpkgs.overlays = [
-    (final: prev: {
-      postman = prev.postman.overrideAttrs(old: rec {
-        version = "20230716100528";
-        src = final.fetchurl {
-          url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
-          sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
+	(final: prev: {
+	  postman = prev.postman.overrideAttrs(old: rec {
+		version = "20230716100528";
+		src = final.fetchurl {
+		  url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
+		  sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
 
-          name = "${old.pname}-${version}.tar.gz";
-        };
-      });
-    })
+		  name = "${old.pname}-${version}.tar.gz";
+		};
+	  });
+	})
   ];
 
 
