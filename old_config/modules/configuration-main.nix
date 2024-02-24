@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+#r Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -7,21 +7,21 @@
 {
 	imports =
 		[ # Include the results of the hardware scan.
-			./hardware-configuration.nix
 			inputs.home-manager.nixosModules.default
-			#<nixos-hardware/microsoft/surface/surface-laptop-amd>
-			#<nixpkgs/nixos/modules/virtualization/qemu-vm.nix>
 		];
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
-	boot.kernelParams = [ "amd_iommu=off" "iommu=off" ];
 
-	networking.hostName = "Garretts-Laptop"; # Define your hostname.
 	# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+	swapDevices = [ {
+		device = "/var/lib/swapfile";
+		size = 16*1024;
+	} ];
 
 	# Configure network proxy if necessary
 	# networking.proxy.default = "http://user:password@proxy:port/";
@@ -68,9 +68,9 @@
 	# };
 
 	# Configure keymap in X11
-	services.xserver = {
+	services.xserver.xkb = {
 		layout = "us";
-		xkbVariant = "";
+		variant = "";
 	};
 
 	# Enable CUPS to print documents.
@@ -103,109 +103,157 @@
 	# Enable touchpad support (enabled default in most desktopManager).
 	services.xserver.libinput.enable = true;
 
+	# Enable Thumb drives
+	services.gvfs.enable = true;
+	services.udisks2.enable = true;
+
 	home-manager = {
 		extraSpecialArgs = { inherit inputs; };
 		users = {
 			"garrett" = {
-        # Home Manager needs a bit of information about you and the paths it should
-        # manage.
-        home.username = "garrett";
-        home.homeDirectory = "/home/garrett";
+				# Home Manager needs a bit of information about you and the paths it should
+				# manage.
+				home.username = "garrett";
+				home.homeDirectory = "/home/garrett";
 
-        # This value determines the Home Manager release that your configuration is
-        # compatible with. This helps avoid breakage when a new Home Manager release
-        # introduces backwards incompatible changes.
-        #
-        # You should not change this value, even if you update Home Manager. If you do
-        # want to update the value, then make sure to first check the Home Manager
-        # release notes.
-        home.stateVersion = "23.11"; # Please read the comment before changing.
+				# This value determines the Home Manager release that your configuration is
+				# compatible with. This helps avoid breakage when a new Home Manager release
+				# introduces backwards incompatible changes.
+				#
+				# You should not change this value, even if you update Home Manager. If you do
+				# want to update the value, then make sure to first check the Home Manager
+				# release notes.
+				home.stateVersion = "23.11"; # Please read the comment before changing.
 
-        # The home.packages option allows you to install Nix packages into your
-        # environment.
-        home.packages = with pkgs; [
-          # # Adds the 'hello' command to your environment. It prints a friendly
-          # # "Hello, world!" when run.
-          # pkgs.hello
+				# The home.packages option allows you to install Nix packages into your
+				# environment.
+				home.packages = with pkgs; [
+					# # Adds the 'hello' command to your environment. It prints a friendly
+					# # "Hello, world!" when run.
+					# pkgs.hello
 
-          # # It is sometimes useful to fine-tune packages, for example, by applying
-          # # overrides. You can do that directly here, just don't forget the
-          # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-          # # fonts?
-          # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+					# # It is sometimes useful to fine-tune packages, for example, by applying
+					# # overrides. You can do that directly here, just don't forget the
+					# # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+					# # fonts?
+					# (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-          # # You can also create simple shell scripts directly inside your
-          # # configuration. For example, this adds a command 'my-hello' to your
-          # # environment:
-          # (pkgs.writeShellScriptBin "my-hello" ''
-          #   echo "Hello, ${config.home.username}!"
-          # '')
-          zsh
-          oh-my-zsh
-          kitty
-          vscode-fhs
-          python3
-          syncthing
-          discord
-          appflowy
-          hyprland
-          hyprpaper
-          waybar
-          mattermost-desktop
-          rofi-wayland
-          keepassxc
-          neofetch
-          docker
-          git
-          slack
-          dbeaver
-          nodejs_21
-          openssl
-          gccgo
-          gnumake
-          zulu
-          maven
-          postman
-          unzip
-        ];
+					# # You can also create simple shell scripts directly inside your
+					# # configuration. For example, this adds a command 'my-hello' to your
+					# # environment:
+					# (pkgs.writeShellScriptBin "my-hello" ''
+					#   echo "Hello, ${config.home.username}!"
+					# '')
+					zsh
+					oh-my-zsh
+					kitty
+					firefox
+					vscode-fhs
+					dolphin
+					python3
+					mypy
+					syncthing
+					discord
+					hyprland
+					hyprpaper
+					waybar
+					mattermost-desktop
+					rofi-wayland
+					keepassxc
+					neofetch
+					docker
+					git
+					slack
+					dbeaver
+					nodejs_21
+					openssl
+					gccgo
+					gnumake
+					zulu
+					maven
+					postman
+					unzip
+					rustup
+					eza
+					monitor
+					upower
+					fd
+					zoxide
+					calc
+					grim
+					swappy
+					slurp
+					neovim
+					ripgrep
+					fzf
+					gitui
+					gdb
+					gnome.nautilus
+					usbutils
+					udiskie
+					udisks
+				];
 
-        # Home Manager is pretty good at managing dotfiles. The primary way to manage
-        # plain files is through 'home.file'.
-        home.file = {
-          # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-          # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-          # # symlink to the Nix store copy.
-          # ".screenrc".source = dotfiles/screenrc;
+				# Home Manager is pretty good at managing dotfiles. The primary way to manage
+				# plain files is through 'home.file'.
+				home.file = {
+					# # Building this configuration will create a copy of 'dotfiles/screenrc' in
+					# # the Nix store. Activating the configuration will then make '~/.screenrc' a
+					# # symlink to the Nix store copy.
+					# ".screenrc".source = dotfiles/screenrc;
 
-          # # You can also set the file content immediately.
-          # ".gradle/gradle.properties".text = ''
-          #   org.gradle.console=verbose
-          #   org.gradle.daemon.idletimeout=3600000
-          # '';
-        };
+					# # You can also set the file content immediately.
+					# ".gradle/gradle.properties".text = ''
+					#   org.gradle.console=verbose
+					#   org.gradle.daemon.idletimeout=3600000
+					# '';
+				};
 
-        # Home Manager can also manage your environment variables through
-        # 'home.sessionVariables'. If you don't want to manage your shell through Home
-        # Manager then you have to manually source 'hm-session-vars.sh' located at
-        # either
-        #
-        #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-        #
-        # or
-        #
-        #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-        #
-        # or
-        #
-        #  /etc/profiles/per-user/garrett/etc/profile.d/hm-session-vars.sh
-        #
-        home.sessionVariables = {
-          # EDITOR = "emacs";
-        };
+				# Home Manager can also manage your environment variables through
+				# 'home.sessionVariables'. If you don't want to manage your shell through Home
+				# Manager then you have to manually source 'hm-session-vars.sh' located at
+				# either
+				#
+				#  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+				#
+				# or
+				#
+				#  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+				#
+				# or
+				#
+				#  /etc/profiles/per-user/garrett/etc/profile.d/hm-session-vars.sh
+				#
+				home.sessionVariables = {
+					# EDITOR = "emacs";
+				};
 
-        # Let Home Manager install and manage itself.
-        programs.home-manager.enable = true;
-      };
+				# Let Home Manager install and manage itself.
+				programs.home-manager.enable = true;
+
+				programs.git = {
+					enable = true;
+					userName = "grong0";
+					userEmail = "garrett59100@gmail.com";
+				};
+
+				gtk = {
+					enable = true;
+					theme = {
+						name = "Nordic";
+						package = pkgs.nordic;
+					};
+					cursorTheme = {
+						name = "apple_cursor";
+						package = pkgs.apple-cursor;
+						size = 24;
+					};
+					iconTheme = {
+						name = "gnome-icon-theme";
+						package = pkgs.gnome-icon-theme;
+					};
+				};
+			};
 		};
 	};
 
