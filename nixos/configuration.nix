@@ -142,7 +142,7 @@
 	users.users.garrett = {
 		isNormalUser = true;
 		description = "Garrett Tupper";
-		extraGroups = [ "networkmanager" "wheel" "docker" ];
+		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" ];
 		shell = pkgs.zsh;
 	};
 

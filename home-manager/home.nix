@@ -116,6 +116,11 @@
 			usbutils
 			udiskie
 			udisks
+			arduino-ide
+			arduino-cli
+			appimagekit
+			brightnessctl
+			pamixer
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage

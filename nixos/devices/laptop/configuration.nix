@@ -1,8 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
 	imports = [
-		#<nixos-hardware/microsoft/surface/surface-laptop-amd>
 		#<nixpkgs/nixos/modules/virtualization/qemu-vm.nix>
 	];
 
