@@ -116,11 +116,12 @@
 			usbutils
 			udiskie
 			udisks
-			arduino-ide
+			# unstable.arduino-ide
 			arduino-cli
 			appimagekit
 			brightnessctl
 			pamixer
+			jqp
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage

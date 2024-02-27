@@ -3,10 +3,10 @@
 
 	inputs = {
 		# Nixpkgs
-		nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 		# You can access packages and modules from different nixpkgs revs
 		# at the same time. Here's an working example:
-		# nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 		# Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
 		# Home manager
@@ -65,6 +65,17 @@
 					({pkgs, ...}: {imports = [
 						./nixos/devices/laptop/configuration.nix
 						./nixos/devices/laptop/hardware-configuration.nix
+					];})
+				];
+			};
+			desktop = nixpkgs.lib.nixosSystem {
+				specialArgs = { inherit inputs outputs; };
+				modules = [
+					./nixos/configuration.nix
+					inputs.home-manager.nixosModules.default
+					({pkgs, ...}: {imports = [
+						./nixos/devices/desktop/configuration.nix
+						./nixos/devices/desktop/hardware-configuration.nix
 					];})
 				];
 			};
