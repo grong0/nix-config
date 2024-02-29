@@ -78,7 +78,7 @@
 			python3
 			mypy
 			syncthing
-			discord
+			vesktop
 			hyprland
 			hyprpaper
 			waybar
@@ -122,6 +122,7 @@
 			brightnessctl
 			pamixer
 			jqp
+      btop
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage

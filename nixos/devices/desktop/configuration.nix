@@ -3,9 +3,30 @@
 {
     networking.hostName = "Garretts-Desktop";
 
-    boot.kernelParams = [ "nvidia_drm.modeset=1" ];
+    #boot.kernelParams = [ "nvidia_drm.modeset=1" ];
+    #boot.initrd = {
+    #  enable = true;
+    #  kernelModules = [
+    #    "nvidia"
+    #    "nvidia_modeset"
+    #    "nvidia_uvm"
+    #    "nvidia_drm"
+    #  ];
+    #};
+    #boot.extraModprobeConfig = ''
+    #  options nvidia-drm modeset=1
+    #'';
 
-    hardware.opengl.enable = true;
+    hardware.opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+
+    #nixpkgs.config.allowUnfreePredicate = pkg:
+    #  builtins.elem (lib.getName pkg) [
+    #    "#nvidia-x11"
+    #  ];
 
     services.xserver.videoDrivers = [ "nvidia" ];
 
@@ -33,8 +54,10 @@
         nvidiaSettings = true;
 
         # Optionally, you may need to select the appropriate driver version for your specific GPU.
-        # package = config.boot.kernelPackages.nvidiaPackages.production;
+        package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
 
   #environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  #programs.hyprland.enableNvidiaPatches = true;
 }

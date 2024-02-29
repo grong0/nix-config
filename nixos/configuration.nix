@@ -104,6 +104,7 @@
 				enable = true;
 				#wayland = true;
 			};
+      windowManager.hypr.enable = true;
 			xkb = {
 				layout = "us";
 				variant = "";
@@ -175,10 +176,10 @@
 		zsh.enable = true;
 		direnv.enable = true;
 		java.enable = true;
-		hyprland = {
-			enable = true;
-			xwayland.enable = true;
-		};
+		#hyprland = {
+		#	enable = true;
+		#	xwayland.enable = true;
+		#};
 	};
 
 	# Syncthing
