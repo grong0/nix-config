@@ -15,12 +15,11 @@
 
 	nixpkgs = {
 		# You can add overlays here
-		# overlays = [
+		overlays = [
 		# 	# Add overlays your own flake exports (from overlays and pkgs dir):
 		# 	outputs.overlays.additions
 		# 	outputs.overlays.modifications
-		# 	outputs.overlays.unstable-packages
-		# 	outputs.overlays.postman
+			outputs.overlays.unstable-packages
 
 		# 	# You can also add overlays exported from other flakes:
 		# 	# neovim-nightly-overlay.overlays.default
@@ -31,7 +30,7 @@
 		# 	#     patches = [ ./change-hello-to-hi.patch ];
 		# 	#   });
 		# 	# })
-		# ];
+		];
 		# Configure your nixpkgs instance
 		config = {
 			# Disable if you don't want unfree packages
@@ -174,7 +173,10 @@
 		ssh.startAgent = true;
 		zsh.enable = true;
 		direnv.enable = true;
-		java.enable = true;
+		java = {
+			enable = true;
+			package = pkgs.jdk21;
+		};
 		hyprland = {
 			enable = true;
 			xwayland.enable = true;
@@ -189,6 +191,8 @@
 		configDir = "/home/garrett/.config/syncthing/";
 		dataDir = "/home/garrett/Documents/Synced Files";
 	};
+
+	environment.systemPackages = with pkgs; [ unstable.postman ];
 
 	# Open ports in the firewall
 	networking.firewall.allowedTCPPorts = [ 8384 22000 ];

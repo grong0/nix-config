@@ -2,6 +2,7 @@
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
 	inputs,
+	# outputs,
 	lib,
 	config,
 	pkgs,
@@ -36,6 +37,17 @@
 			#     patches = [ ./change-hello-to-hi.patch ];
 			#   });
 			# })
+			(final: prev: {
+				postman = prev.postman.overrideAttrs(old: rec {
+					version = "20230716100528";
+					src = final.fetchurl {
+						url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
+						sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
+
+						name = "${old.pname}-${version}.tar.gz";
+					};
+				});
+			})
 		];
 		# Configure your nixpkgs instance
 		config = {
@@ -78,7 +90,10 @@
 			python3
 			mypy
 			syncthing
-			discord
+			(pkgs.discord.override {
+				withOpenASAR = true;
+				#withVencord = true;
+			})
 			hyprland
 			hyprpaper
 			waybar
@@ -94,7 +109,7 @@
 			openssl
 			gccgo
 			gnumake
-			zulu
+			jdk21
 			maven
 			unzip
 			rustup
@@ -121,7 +136,9 @@
 			appimagekit
 			brightnessctl
 			pamixer
-			jqp
+			jq
+			btop
+			# unstable.postman
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
