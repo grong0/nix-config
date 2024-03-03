@@ -79,9 +79,10 @@
 			mypy
 			syncthing
 			vesktop
-			hyprland
-			hyprpaper
-			waybar
+			hypr
+			picom
+			setroot
+			polybar
 			mattermost-desktop
 			rofi-wayland
 			keepassxc
@@ -122,7 +123,8 @@
 			brightnessctl
 			pamixer
 			jqp
-      btop
+			btop
+			setroot
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -165,6 +167,46 @@
 
 	# Let Home Manager install and manage itself.
 	programs.home-manager.enable = true;
+
+	# Currently Doesn't do Anything
+	programs.autorandr = {
+		enable = true;
+		profiles = {
+			"desktop" = {
+				fingerprint = {
+					"AOPEN" = "DP-0";
+					"Samsung" = "DP-1";
+					"HP" = "HDMI-0";
+				};
+				config = {
+					Samsung = {
+						enable = true;
+						primary = false;
+						position = "-1920x0";
+						mode = "1920x1080";
+						rate = "60.00";
+						rotate = "normal";
+					};
+					AOPEN= {
+						enable = true;
+						primary = true;
+						position = "0x0";
+						mode = "1920x1080";
+						rate = "164.92";
+						rotate = "normal";
+					};
+					HP = {
+						enable = true;
+						primary = false;
+						position = "1920x0";
+						mode = "1920x1080";
+						rate = "60.00";
+						rotate = "normal";
+					};
+				};
+			};
+		};
+	};
 
 	programs.git = {
 		enable = true;
