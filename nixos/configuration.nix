@@ -174,7 +174,6 @@
 		ssh.startAgent = true;
 		zsh.enable = true;
 		direnv.enable = true;
-<<<<<<< HEAD
 		java = {
 			enable = true;
 			package = pkgs.jdk21;
@@ -183,13 +182,6 @@
 			enable = true;
 			xwayland.enable = true;
 		};
-=======
-		java.enable = true;
-		#hyprland = {
-		#	enable = true;
-		#	xwayland.enable = true;
-		#};
->>>>>>> refs/remotes/origin/master
 	};
 
 	# Syncthing
