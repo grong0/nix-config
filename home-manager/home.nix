@@ -1,17 +1,19 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
-	inputs,
-	# outputs,
-	lib,
-	config,
+	# inputs,
+	outputs,
+	# lib,
+	# config,
+	# unstable,
 	pkgs,
 	...
 }: {
 	# You can import other home-manager modules here
 	imports = [
 		# If you want to use modules your own flake exports (from modules/home-manager):
-		# outputs.homeManagerModules.example
+		# outputs.homeManagerModules.gtk-theme
+		# outputs.homeManagerModules.cursor-theme
 
 		# Or modules exported from other flakes (such as nix-colors):
 		# inputs.nix-colors.homeManagerModules.default
@@ -26,7 +28,7 @@
 			# Add overlays your own flake exports (from overlays and pkgs dir):
 			# outputs.overlays.additions
 			# outputs.overlays.modifications
-			# outputs.overlays.unstable-packages
+			outputs.overlays.unstable-packages
 
 			# You can also add overlays exported from other flakes:
 			# neovim-nightly-overlay.overlays.default
@@ -83,24 +85,27 @@
 			# '')
 			zsh
 			oh-my-zsh
-			kitty
+			nanorc
+			unstable.alacritty
 			firefox
 			vscode-fhs
-			dolphin
+			xfce.thunar
+			xfce.tumbler
 			python3
 			mypy
 			syncthing
 			(pkgs.discord.override {
 				withOpenASAR = true;
-				#withVencord = true;
+				withVencord = true;
 			})
-			hyprland
-			hyprpaper
+			# hyprland
+			# hyprpaper
 			waybar
 			mattermost-desktop
 			rofi-wayland
 			keepassxc
 			neofetch
+			nitch
 			docker
 			git
 			slack
@@ -127,18 +132,32 @@
 			fzf
 			gitui
 			gdb
-			gnome.nautilus
 			usbutils
 			udiskie
 			udisks
-			# unstable.arduino-ide
+			unstable.arduino-ide
 			arduino-cli
 			appimagekit
 			brightnessctl
 			pamixer
 			jq
 			btop
-			# unstable.postman
+			unstable.postman
+			obsidian
+			valgrind
+			sonar-scanner-cli
+			imv
+			gimp
+			poetry
+			libreoffice
+			steam
+			powertop
+			dnsmasq
+			wine
+			teensy-loader-cli
+			libsForQt5.bismuth
+			cargo-tauri
+			waydroid
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -172,7 +191,7 @@
 		#  /etc/profiles/per-user/garrett/etc/profile.d/hm-session-vars.sh
 		#
 		sessionVariables = {
-			# EDITOR = "emacs";
+			# NODE_HOME = "${pkgs.nodejs_21}";
 		};
 
 		# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
@@ -228,22 +247,9 @@
 		userEmail = "garrett59100@gmail.com";
 	};
 
-	gtk = {
-		enable = true;
-		theme = {
-			name = "Nordic";
-			package = pkgs.nordic;
-		};
-		cursorTheme = {
-			name = "apple_cursor";
-			package = pkgs.apple-cursor;
-			size = 24;
-		};
-		iconTheme = {
-			name = "gnome-icon-theme";
-			package = pkgs.gnome-icon-theme;
-		};
-	};
+	nixpkgs.config.permittedInsecurePackages = [
+		"electron-25.9.0"
+	];
 
 	# Add stuff for your user as you see fit:
 	# programs.neovim.enable = true;

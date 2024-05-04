@@ -16,12 +16,17 @@
 		# Hardware
 		nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+		# ROS
+		nix-ros-overlay-pkgs.url = "github:lopsided98/nixpkgs/nix-ros";
+		ros.url = "github:clearpathrobotics/nix-ros";
+		ros-base.url = "github:clearpathrobotics/nix-ros-base";
+
 		# Shameless plug: looking for a way to nixify your themes and make
 		# everything match nicely? Try nix-colors!
 		# nix-colors.url = "github:misterio77/nix-colors";
 	};
 
-	outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }@ inputs:
+	outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, ... }@ inputs:
 	let
 		inherit (self) outputs;
 		# Supported systems for your flake packages, shell, etc.
@@ -34,14 +39,16 @@
 		];
 		# This is a function that generates an attribute by calling a function you
 		# pass to it, with each system as an argument
-		forAllSystems = nixpkgs.lib.genAttrs systems;
+		forAllSystemsStable = nixpkgs.lib.genAttrs systems;
+		forAllSystemsUnstable = nixpkgs-unstable.lib.genAttrs systems;
 	in {
 		# Your custom packages
 		# Accessible through 'nix build', 'nix shell', etc
-		packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+		stablePackages = forAllSystemsStable (system: import ./pkgs nixpkgs.legacyPackages.${system});
+		unstablePackages = forAllSystemsUnstable (system: import nixpkgs.legacyPackages.${system});
 		# Formatter for your nix files, available through 'nix fmt'
 		# Other options beside 'alejandra' include 'nixpkgs-fmt'
-		formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+		formatter = forAllSystemsStable (system: nixpkgs.legacyPackages.${system}.alejandra);
 
 		# Your custom packages and modifications, exported as overlays
 		overlays = import ./overlays {inherit inputs;};
@@ -58,7 +65,6 @@
 			laptop = nixpkgs.lib.nixosSystem {
 				specialArgs = { inherit inputs outputs; };
 				modules = [
-					# > Our main nixos configuration file <
 					./nixos/configuration.nix
 					inputs.home-manager.nixosModules.default
 					# inputs.nixos-hardware.nixosModules.microsoft-surface-laptop-amd

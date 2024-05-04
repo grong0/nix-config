@@ -19,7 +19,7 @@
 		# 	# Add overlays your own flake exports (from overlays and pkgs dir):
 		# 	outputs.overlays.additions
 		# 	outputs.overlays.modifications
-			outputs.overlays.unstable-packages
+		#	outputs.overlays.unstable-packages
 
 		# 	# You can also add overlays exported from other flakes:
 		# 	# neovim-nightly-overlay.overlays.default
@@ -95,15 +95,21 @@
 		};
 	};
 
+	# Bluetooth
+	hardware.bluetooth.enable = true;
+	hardware.bluetooth.powerOnBoot = true;
+	services.blueman.enable = true;
+
 	# Services
 	services = {
 		xserver = {
 			enable = true;
-			displayManager.gdm = {
+			displayManager.sddm = {
 				enable = true;
 				#wayland = true;
 			};
-      windowManager.hypr.enable = true;
+			desktopManager.plasma5.enable = true;
+			# windowManager.hypr.enable = true;
 			xkb = {
 				layout = "us";
 				variant = "";
@@ -117,9 +123,16 @@
 		printing.enable = true;
 
 		# Enable Thumb drives
+		devmon.enable = true;
 		gvfs.enable = true;
 		udisks2.enable = true;
 	};
+
+	# Exluding KDE Plasma packages
+	environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+		plasma-browser-integration
+		konsole
+	];
 
 	# Sound with Pipewire
 	sound.enable = true;
@@ -142,13 +155,13 @@
 	users.users.garrett = {
 		isNormalUser = true;
 		description = "Garrett Tupper";
-		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" ];
+		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" "surface-control" ];
 		shell = pkgs.zsh;
 	};
 
 	# Home Manager
 	home-manager = {
-		extraSpecialArgs = { inherit inputs; };
+		extraSpecialArgs = { inherit inputs outputs; };
 		users = {
 			"garrett" = import ../home-manager/home.nix;
 		};
@@ -169,6 +182,10 @@
 		};
 	};
 
+	environment.systemPackages = with pkgs; [
+		pavucontrol
+	];
+
 	# Programs
 	programs = {
 		ssh.startAgent = true;
@@ -178,10 +195,10 @@
 			enable = true;
 			package = pkgs.jdk21;
 		};
-		hyprland = {
-			enable = true;
-			xwayland.enable = true;
-		};
+		# hyprland = {
+		# 	enable = true;
+		# 	xwayland.enable = true;
+		# };
 	};
 
 	# Syncthing
@@ -193,7 +210,11 @@
 		dataDir = "/home/garrett/Documents/Synced Files";
 	};
 
-	environment.systemPackages = with pkgs; [ unstable.postman ];
+	# Eventually move to `home.nix`w
+	virtualisation.docker.enable = true;
+	virtualisation.waydroid.enable = true;
+
+	programs.nix-ld.enable = true;
 
 	# Open ports in the firewall
 	networking.firewall.allowedTCPPorts = [ 8384 22000 ];
