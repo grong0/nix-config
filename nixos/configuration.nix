@@ -58,8 +58,16 @@
 		experimental-features = "nix-command flakes";
 		# Deduplicate and optimize nix store
 		auto-optimise-store = true;
+		# Enable Cachix for nix-gaming
+		substituters = ["https://nix-gaming.cachix.org"];
+		trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
 	};
 
+	# nix-gaming
+	# TODO: MOVE TO HOME-MANAGER
+	environment.systemPackages = [
+		inputs.nix-gaming.packages.${pkgs.system}.osu-stable
+	];
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
@@ -104,20 +112,13 @@
 	services = {
 		xserver = {
 			enable = true;
-			displayManager.sddm = {
-				enable = true;
-				#wayland = true;
-			};
-			desktopManager.plasma5.enable = true;
-			# windowManager.hypr.enable = true;
 			xkb = {
 				layout = "us";
 				variant = "";
 			};
-
-			# Enable touchpad support
-			libinput.enable = true;
 		};
+		# Enable touchpad support
+		libinput.enable = true;
 
 		# Enable CUPS to print documents
 		printing.enable = true;
@@ -127,12 +128,6 @@
 		gvfs.enable = true;
 		udisks2.enable = true;
 	};
-
-	# Exluding KDE Plasma packages
-	environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-		plasma-browser-integration
-		konsole
-	];
 
 	# Sound with Pipewire
 	sound.enable = true;
@@ -182,10 +177,6 @@
 		};
 	};
 
-	environment.systemPackages = with pkgs; [
-		pavucontrol
-	];
-
 	# Programs
 	programs = {
 		ssh.startAgent = true;
@@ -195,10 +186,7 @@
 			enable = true;
 			package = pkgs.jdk21;
 		};
-		# hyprland = {
-		# 	enable = true;
-		# 	xwayland.enable = true;
-		# };
+		steam.enable = true;
 	};
 
 	# Syncthing
@@ -213,31 +201,48 @@
 	# Eventually move to `home.nix`w
 	virtualisation.docker.enable = true;
 	virtualisation.waydroid.enable = true;
+	virtualisation.libvirtd.enable = true;
 
 	programs.nix-ld.enable = true;
 
-	# Open ports in the firewall
-	networking.firewall.allowedTCPPorts = [ 8384 22000 ];
-	networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+	# WireGuard
+	networking.firewall = {
+		allowedTCPPorts = [ 8384 22000 ];
+		allowedUDPPorts = [ 51820 22000 21027 ];
+	};
+	# networking.wireguard.interfaces = {
+	# 	wg0 = {
+	# 		ips = [ "10.100.0.2/24" ];
+	# 		listenPort = 51820;
+	# 		privateKeyFile = "~/.config/keyFiles/HomeServer.conf";
+	# 		peers = [{
+	# 			publicKey = "ljD65xZ5xib28s1B9gfOJfYHLdLU8rfhtv02p2DuSBk=";
+	# 			allowedIPs = [ "192.168.1.0/24" ];
+	# 			endpoint = "garrettpc.duckdns.org:51820";
+	# 			persistentKeepalive = 25;
+	# 		}];
+	# 	};
+	# };
 	# Or disable the firewall altogether.
 	# networking.firewall.enable = false;
 
-	# Overlays
-	# TODO: Move these to the overlays directory
-	# nixpkgs.overlays = [
-	# 	(final: prev: {
-	# 		postman = prev.postman.overrideAttrs(old: rec {
-	# 			version = "20230716100528";
-	# 			src = final.fetchurl {
-	# 				url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
-	# 				sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
+	# Hyprland
+	services.displayManager.sddm = {
+		enable = true;
+	# 	wayland = true;
+	};
+	services.xserver.windowManager.hypr.enable = true;
+	programs.hyprland = {
+		enable = true;
+		# xwayland.enable = true;
+	};
 
-	# 				name = "${old.pname}-${version}.tar.gz";
-	# 			};
-	# 		});
-	# 	})
-	# ];
+	# sway
+	# programs.sway = {
+	# 	enable = true;
+	# 	wrapperFeatures.gtk = true;
+	# };
 
 	# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-	system.stateVersion = "23.11";
+	system.stateVersion = "24.05";
 }

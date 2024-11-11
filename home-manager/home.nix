@@ -1,22 +1,20 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
-	# inputs,
+	inputs,
 	outputs,
-	# lib,
-	# config,
-	# unstable,
+	config,
 	pkgs,
 	...
 }: {
 	# You can import other home-manager modules here
 	imports = [
 		# If you want to use modules your own flake exports (from modules/home-manager):
-		# outputs.homeManagerModules.gtk-theme
-		# outputs.homeManagerModules.cursor-theme
+		outputs.homeManagerModules.gtk-theme
+		outputs.homeManagerModules.cursor-theme
 
 		# Or modules exported from other flakes (such as nix-colors):
-		# inputs.nix-colors.homeManagerModules.default
+		inputs.nix-colors.homeManagerModules.default
 
 		# You can also split up your configuration and import pieces of it here:
 		# ./nvim.nix
@@ -29,6 +27,7 @@
 			# outputs.overlays.additions
 			# outputs.overlays.modifications
 			outputs.overlays.unstable-packages
+			# outputs.overlays.nix-ros-overlay
 
 			# You can also add overlays exported from other flakes:
 			# neovim-nightly-overlay.overlays.default
@@ -86,20 +85,20 @@
 			zsh
 			oh-my-zsh
 			nanorc
-			unstable.alacritty
+			# unstable.alacritty
 			firefox
 			vscode-fhs
 			xfce.thunar
-			xfce.tumbler
+			gnome.nautilus
 			python3
 			mypy
 			syncthing
 			(pkgs.discord.override {
-				withOpenASAR = true;
+				# withOpenASAR = true;
 				withVencord = true;
 			})
-			# hyprland
-			# hyprpaper
+			webcord-vencord
+			hyprpaper
 			waybar
 			mattermost-desktop
 			rofi-wayland
@@ -109,8 +108,7 @@
 			docker
 			git
 			slack
-			dbeaver
-			nodejs_21
+			nodejs_22
 			openssl
 			gccgo
 			gnumake
@@ -158,6 +156,19 @@
 			libsForQt5.bismuth
 			cargo-tauri
 			waydroid
+			tailwindcss
+			gparted
+			pgadmin4
+			screen
+			unstable.multipass
+			p7zip
+			notepadqq
+			distrobox
+			mako
+			google-fonts
+			godot_4
+			inkscape
+			pavucontrol
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -195,7 +206,52 @@
 		};
 
 		# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-		stateVersion = "23.11";
+		stateVersion = "24.05";
+	};
+
+	programs.alacritty = {
+		enable = true;
+		settings = {
+			font = {
+				size = 18;
+				normal = {
+					family = "JetBrainsMono Nerd Font";
+					style = "Regular";
+				};
+			};
+
+			window.padding = {
+				x = 12;
+				y = 12;
+			};
+
+			colors = {
+				primary = {
+					background = "#${config.colorScheme.palette.base00}";
+					foreground = "#${config.colorScheme.palette.base05}";
+				};
+				normal = {
+					black   = "#${config.colorScheme.palette.base01}";
+					red     = "#${config.colorScheme.palette.base08}";
+					green   = "#${config.colorScheme.palette.base0B}";
+					yellow  = "#${config.colorScheme.palette.base0A}";
+					blue    = "#${config.colorScheme.palette.base0D}";
+					magenta = "#${config.colorScheme.palette.base0E}";
+					cyan    = "#${config.colorScheme.palette.base0C}";
+					white   = "#${config.colorScheme.palette.base06}";
+				};
+				bright = {
+					black   = "#${config.colorScheme.palette.base02}";
+					red     = "#${config.colorScheme.palette.base08}";
+					green   = "#${config.colorScheme.palette.base0B}";
+					yellow  = "#${config.colorScheme.palette.base0A}";
+					blue    = "#${config.colorScheme.palette.base0D}";
+					magenta = "#${config.colorScheme.palette.base0E}";
+					cyan    = "#${config.colorScheme.palette.base0C}";
+					white   = "#${config.colorScheme.palette.base07}";
+				};
+			};
+		};
 	};
 
 	# Let Home Manager install and manage itself.

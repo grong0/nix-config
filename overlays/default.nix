@@ -21,6 +21,12 @@
 		};
 	};
 
+	# nix-ros-overlay = final: _prev: {
+	# 	nix-ros-overlay = import inputs.nix-ros-overlay {
+	# 		system = final.system;
+	# 	};
+	# };
+
 	# Postman
 	# postman = final: prev: {
 	# 	postman = prev.postman.overrideAttrs(old: rec {

@@ -3,30 +3,33 @@
 
 	inputs = {
 		# Nixpkgs
-		nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 		# You can access packages and modules from different nixpkgs revs
 		# at the same time. Here's an working example:
 		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 		# Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+		# nix-gaming
+		nix-gaming.url = "github:fufexan/nix-gaming";
 
 		# Home manager
-		home-manager.url = "github:nix-community/home-manager/release-23.11";
+		home-manager.url = "github:nix-community/home-manager/release-24.05";
 		home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
 		# Hardware
 		nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
 		# ROS
-		nix-ros-overlay-pkgs.url = "github:lopsided98/nixpkgs/nix-ros";
-		ros.url = "github:clearpathrobotics/nix-ros";
-		ros-base.url = "github:clearpathrobotics/nix-ros-base";
+		# nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
+		# nix-ros-overlay-pkgs.url = "github:lopsided98/nixpkgs/nix-ros";
+		# ros.url = "github:clearpathrobotics/nix-ros";
+		# ros-base.url = "github:clearpathrobotics/nix-ros-base";
 
 		# Shameless plug: looking for a way to nixify your themes and make
 		# everything match nicely? Try nix-colors!
-		# nix-colors.url = "github:misterio77/nix-colors";
+		nix-colors.url = "github:misterio77/nix-colors";
 	};
 
-	outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, ... }@ inputs:
+	outputs = { self, nixpkgs, nixpkgs-unstable, nix-gaming, home-manager, nixos-hardware, nix-colors, ... }@ inputs:
 	let
 		inherit (self) outputs;
 		# Supported systems for your flake packages, shell, etc.
@@ -41,11 +44,15 @@
 		# pass to it, with each system as an argument
 		forAllSystemsStable = nixpkgs.lib.genAttrs systems;
 		forAllSystemsUnstable = nixpkgs-unstable.lib.genAttrs systems;
+		forAllSystemsGaming = nix-gaming.lib.genAttrs systems;
+		# forAllSystemsROS = nix-ros-overlay.inputs.lib.genAttrs systems;
 	in {
 		# Your custom packages
 		# Accessible through 'nix build', 'nix shell', etc
 		stablePackages = forAllSystemsStable (system: import ./pkgs nixpkgs.legacyPackages.${system});
 		unstablePackages = forAllSystemsUnstable (system: import nixpkgs.legacyPackages.${system});
+		gamingPackages = forAllSystemsGaming (system: import nixpkgs.lagacyPackages.${system});
+		# forAllSystemsROS = forAllSystemsROS (system: import nixpkgs.legacyPackages.${system});
 		# Formatter for your nix files, available through 'nix fmt'
 		# Other options beside 'alejandra' include 'nixpkgs-fmt'
 		formatter = forAllSystemsStable (system: nixpkgs.legacyPackages.${system}.alejandra);
@@ -67,6 +74,7 @@
 				modules = [
 					./nixos/configuration.nix
 					inputs.home-manager.nixosModules.default
+					# inputs.home-manager.nix-ros-overlay.default
 					# inputs.nixos-hardware.nixosModules.microsoft-surface-laptop-amd
 					({pkgs, ...}: {imports = [
 						./nixos/devices/laptop/configuration.nix

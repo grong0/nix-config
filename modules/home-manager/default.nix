@@ -3,6 +3,6 @@
 # List your module files here
 # my-module = import ./my-module.nix;
 {
-	gtk-theme = import ./themes/gruvbox-dark.nix;
+	gtk-theme = import ./themes/catppuccin-frappe-blue.nix;
 	cursor-theme = import ./themes/apple-cursor.nix;
 }
