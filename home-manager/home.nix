@@ -180,7 +180,7 @@
 			gparted
 			pgadmin4
 			screen
-			unstable.multipass
+			# unstable.multipass
 			p7zip
 			notepadqq
 			distrobox

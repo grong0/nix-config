@@ -34,9 +34,13 @@
 	# networking.networkmanager.enable = true;
 
 	boot.kernelParams = [ "amd_iommu=off" "iommu=off" ];
-
-	microsoft-surface = {
-		# ipts.enable = true;
-		surface-control.enable = true;
-	};
+	
+	environment.defaultPackages = with pkgs; [
+		surface-control
+	];
+	
+	# microsoft-surface = {
+	# 	ipts.enable = true;
+	# 	surface-control.enable = true;
+	# };
 }
