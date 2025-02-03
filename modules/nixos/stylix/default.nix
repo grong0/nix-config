@@ -36,9 +36,6 @@
 				enableLeftBackColors = false;
 				enableRightBackColors = false;
 			};
-			ghostty = {
-				enable = false;
-			};
 		};
 	};
 }

@@ -129,7 +129,7 @@
 			"editor.cursorWidth" = 3;
 			"editor.cursorSmoothCaretAnimation" = "on";
 			# "editor.fontFamily" = "'JetBrainsMono Nerd Font'; 'Fira Code'; Consolas; 'Courier New'; monospace";
-			"editor.fontSize" = 18;
+			# "editor.fontSize" = 18;
 			"editor.fontWeight" = "500"; # Medium
 			"editor.formatOnSave" = true;
 			"editor.minimap.autohide" = true;
@@ -146,7 +146,7 @@
 			# Terminal
 			"terminal.external.osxExec" = "alacritty.app";
 			"terminal.integrated.smoothScrolling" = true;
-			"terminal.integrated.fontSize" = 14;
+			# "terminal.integrated.fontSize" = 14;
 			"terminal.integrated.fontWeight" = "500";
 			"terminal.integrated.cursorBlinking" = true;
 			"terminal.integrated.defaultProfile.linux" = "zsh";
