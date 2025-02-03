@@ -30,12 +30,14 @@
 	};
 
 	home-manager.users.garrett.stylix = {
+		enable = true;
 		targets = {
 			waybar = {
 				enableCenterBackColors = false;
 				enableLeftBackColors = false;
 				enableRightBackColors = false;
 			};
+			btop.enable = true;
 		};
 	};
 }

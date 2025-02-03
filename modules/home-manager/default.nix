@@ -14,5 +14,6 @@
 		zed-editor = import ./apps/zed-editor.nix;
 		chadwm = import ./apps/chadwm.nix;
 		eww = import ./apps/eww.nix;
+		btop = import ./app/btop.nix;
 	};
 }

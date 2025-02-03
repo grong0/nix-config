@@ -26,6 +26,7 @@
 		zed-editor
 		eww
 		# chadwm
+		btop
 	]);
 
 	nixpkgs = {
@@ -159,7 +160,6 @@
 			brightnessctl
 			pamixer
 			jq
-			btop
 			unstable.postman
 			obsidian
 			valgrind
