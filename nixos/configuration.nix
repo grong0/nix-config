@@ -5,13 +5,14 @@
 {
 	# You can import other NixOS modules here
 	imports = [
-		# If you want to use modules your own flake exports (from modules/nixos):
-		# outputs.nixosModules.example
-
 		# Or modules from other flakes (such as nixos-hardware):
 		# inputs.hardware.nixosModules.common-cpu-amd
 		# inputs.hardware.nixosModules.common-ssd
-	];
+	] ++ (with outputs.nixosModules; [
+		stylix
+		hyprland
+		# dwm
+	]);
 
 	nixpkgs = {
 		# You can add overlays here
@@ -44,7 +45,7 @@
 
 	# This will additionally add your inputs to the system's legacy channels
 	# Making legacy nix commands consistent as well, awesome!
-	nix.nixPath = ["/etc/nix/path"];
+	nix.nixPath = [ "/etc/nix/path" "nixpkgs=${inputs.nixpkgs}" ];
 	environment.etc =
 		lib.mapAttrs'
 		(name: value: {
@@ -130,7 +131,7 @@
 	};
 
 	# Sound with Pipewire
-	sound.enable = true;
+	# sound.enable = true;
 	hardware.pulseaudio.enable = false;
 	security.rtkit.enable = true;
 	services.pipewire = {
@@ -149,8 +150,8 @@
 	# Users
 	users.users.garrett = {
 		isNormalUser = true;
-		description = "Garrett Tupper";
-		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" "surface-control" ];
+		description = "Garrett";
+		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" "plugdev" "udev" ];
 		shell = pkgs.zsh;
 	};
 
@@ -226,23 +227,23 @@
 	# Or disable the firewall altogether.
 	# networking.firewall.enable = false;
 
-	# Hyprland
-	services.displayManager.sddm = {
-		enable = true;
-	# 	wayland = true;
-	};
-	services.xserver.windowManager.hypr.enable = true;
-	programs.hyprland = {
-		enable = true;
-		# xwayland.enable = true;
-	};
-
 	# sway
 	# programs.sway = {
 	# 	enable = true;
 	# 	wrapperFeatures.gtk = true;
 	# };
 
+	# Stylix
+	# stylix.enable = true;
+
+	# UDEV Rules for Teensy
+	services.udev.extraRules = ''
+		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+		SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+		KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+	'';
+
 	# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-	system.stateVersion = "24.05";
+	system.stateVersion = "24.11";
 }

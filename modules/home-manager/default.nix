@@ -3,6 +3,16 @@
 # List your module files here
 # my-module = import ./my-module.nix;
 {
-	gtk-theme = import ./themes/catppuccin-frappe-blue.nix;
-	cursor-theme = import ./themes/apple-cursor.nix;
+	apps = {
+		alacritty = import ./apps/alacritty.nix;
+		hyprland = import ./apps/hyprland.nix;
+		hyprpaper = import ./apps/hyprpaper.nix;
+		waybar = import ./apps/waybar.nix;
+		vesktop = import ./apps/vesktop.nix;
+		mako = import ./apps/mako.nix;
+		vscode = import ./apps/vscode.nix;
+		zed-editor = import ./apps/zed-editor.nix;
+		chadwm = import ./apps/chadwm.nix;
+		eww = import ./apps/eww.nix;
+	};
 }

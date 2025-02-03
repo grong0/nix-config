@@ -3,22 +3,30 @@
 {
 	inputs,
 	outputs,
-	config,
 	pkgs,
 	...
 }: {
 	# You can import other home-manager modules here
 	imports = [
 		# If you want to use modules your own flake exports (from modules/home-manager):
-		outputs.homeManagerModules.gtk-theme
-		outputs.homeManagerModules.cursor-theme
 
 		# Or modules exported from other flakes (such as nix-colors):
-		inputs.nix-colors.homeManagerModules.default
+		# inputs.nix-colors.homeManagerModules.default
 
 		# You can also split up your configuration and import pieces of it here:
 		# ./nvim.nix
-	];
+	] ++ (with outputs.homeManagerModules.apps; [
+		alacritty
+		hyprland
+		hyprpaper
+		waybar
+		vesktop
+		mako
+		vscode
+		zed-editor
+		eww
+		# chadwm
+	]);
 
 	nixpkgs = {
 		# You can add overlays here
@@ -85,21 +93,28 @@
 			zsh
 			oh-my-zsh
 			nanorc
-			# unstable.alacritty
 			firefox
 			vscode-fhs
 			xfce.thunar
-			gnome.nautilus
-			python3
+			nautilus
+			(python3.withPackages (ps: with ps; [
+				python-lsp-server
+				python-lsp-jsonrpc
+				python-lsp-black
+				python-lsp-ruff
+				pyls-isort
+				pyls-flake8
+				flake8
+				isort
+				black
+			]))
 			mypy
 			syncthing
-			(pkgs.discord.override {
-				# withOpenASAR = true;
-				withVencord = true;
-			})
-			webcord-vencord
-			hyprpaper
-			waybar
+			# (discord.override {
+			# 	# withOpenASAR = true;
+			# 	withVencord = true;
+			# })
+			# webcord-vencord
 			mattermost-desktop
 			rofi-wayland
 			keepassxc
@@ -109,13 +124,18 @@
 			git
 			slack
 			nodejs_22
+			eslint
 			openssl
-			gccgo
+			go
+			gopls
 			gnumake
 			jdk21
 			maven
 			unzip
-			rustup
+			# rustup
+			cargo
+			rustc
+			rustfmt
 			eza
 			monitor
 			upower
@@ -164,11 +184,33 @@
 			p7zip
 			notepadqq
 			distrobox
-			mako
 			google-fonts
 			godot_4
 			inkscape
 			pavucontrol
+			alejandra
+			# nixd
+			nil
+			wine
+			ocaml
+			dune_3
+			yt-dlp
+			libgccjit
+			stlink
+			stlink-tool
+			dotnet-sdk
+			stm32cubemx
+			stm32loader
+			stm32flash
+			openocd
+			platformio
+			smlnj
+			vlc
+			obs-studio
+			wtf
+			openscad
+			freecad-wayland
+			kicad
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -206,52 +248,7 @@
 		};
 
 		# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-		stateVersion = "24.05";
-	};
-
-	programs.alacritty = {
-		enable = true;
-		settings = {
-			font = {
-				size = 18;
-				normal = {
-					family = "JetBrainsMono Nerd Font";
-					style = "Regular";
-				};
-			};
-
-			window.padding = {
-				x = 12;
-				y = 12;
-			};
-
-			colors = {
-				primary = {
-					background = "#${config.colorScheme.palette.base00}";
-					foreground = "#${config.colorScheme.palette.base05}";
-				};
-				normal = {
-					black   = "#${config.colorScheme.palette.base01}";
-					red     = "#${config.colorScheme.palette.base08}";
-					green   = "#${config.colorScheme.palette.base0B}";
-					yellow  = "#${config.colorScheme.palette.base0A}";
-					blue    = "#${config.colorScheme.palette.base0D}";
-					magenta = "#${config.colorScheme.palette.base0E}";
-					cyan    = "#${config.colorScheme.palette.base0C}";
-					white   = "#${config.colorScheme.palette.base06}";
-				};
-				bright = {
-					black   = "#${config.colorScheme.palette.base02}";
-					red     = "#${config.colorScheme.palette.base08}";
-					green   = "#${config.colorScheme.palette.base0B}";
-					yellow  = "#${config.colorScheme.palette.base0A}";
-					blue    = "#${config.colorScheme.palette.base0D}";
-					magenta = "#${config.colorScheme.palette.base0E}";
-					cyan    = "#${config.colorScheme.palette.base0C}";
-					white   = "#${config.colorScheme.palette.base07}";
-				};
-			};
-		};
+		stateVersion = "24.11";
 	};
 
 	# Let Home Manager install and manage itself.

@@ -12,7 +12,26 @@
 		# <nixos-hardware/common/gpu/amd>
 	];
 
+	# security.sudo.extraRules = [{
+	# 	commands = [{
+	# 		command = "/run/current-system/sw/bin/tee";
+	# 		options = [ "NOPASSWD" ];
+	# 	}];
+	# 	groups = [ "acpi" ];
+	# }];
+	# users.groups.acpi = {};
+	# users.users.garrett.extraGroups = [ "acpi" ];
+	
+	systemd.user.services.open-acpi = {
+		description = "Opens editing of platform_profile in acpi to users.";
+		script = ''
+			chmod u+w /sys/firmware/acpi/platform_profile
+		'';
+		wantedBy = [ "multi-user.target" ];
+	};
+	
 	networking.hostName = "Garretts-Laptop";
+	# networking.networkmanager.enable = true;
 
 	boot.kernelParams = [ "amd_iommu=off" "iommu=off" ];
 
