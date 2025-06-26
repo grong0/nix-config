@@ -82,7 +82,7 @@
 				modules = [
 					./nixos/configuration.nix
 					inputs.home-manager.nixosModules.default
-					# inputs.nixos-hardware.nixosModules.microsoft-surface-laptop-amd
+					inputs.nixos-hardware.nixosModules.microsoft-surface-laptop-amd
 					inputs.stylix.nixosModules.stylix
 					({pkgs, ...}: {imports = [
 						./nixos/devices/laptop/configuration.nix

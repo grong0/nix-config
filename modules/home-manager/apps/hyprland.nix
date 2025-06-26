@@ -96,16 +96,16 @@
 			};
 
 			windowrule = [
-				"opacity 0.9,^(Code)$"
-				"opacity 0.9,^(VSCodium)$"
-				"opacity 0.9,^(dev.zed.Zed)$"
-				"opacity 0.9,^(kitty)$"
-				"opacity 0.9,^(sakura)$"
-				"opacity 0.9,^(Alacritty)$"
-				"opacity 0.9,^(discord)$"
-				"opacity 0.9,^(vesktop)$"
-				"opacity 0.9,^(obsidian)$"
-				"float, ^(imv)$"
+				"opacity 0.9, class:^(Code)$"
+				"opacity 0.9, class:^(VSCodium)$"
+				"opacity 0.9, class:^(dev.zed.Zed)$"
+				"opacity 0.9, class:^(kitty)$"
+				"opacity 0.9, class:^(sakura)$"
+				"opacity 0.9, class:^(Alacritty)$"
+				"opacity 0.9, class:^(discord)$"
+				"opacity 0.9, class:^(vesktop)$"
+				"opacity 0.9, class:^(obsidian)$"
+				"float, class:^(imv)$"
 			];
 
 			"$mainMod" = "SUPER";

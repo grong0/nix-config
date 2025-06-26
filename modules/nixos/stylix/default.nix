@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 	imports = [
-		./themes/ayu-dark/default.nix
+		./themes/onedark/default.nix
 	];
 
 	stylix = {
@@ -34,9 +34,9 @@
 		targets = {
 			waybar = {
 				enable = false;
-				enableCenterBackColors = false;
-				enableLeftBackColors = false;
-				enableRightBackColors = false;
+				# enableCenterBackColors = false;
+				# enableLeftBackColors = false;
+				# enableRightBackColors = false;
 			};
 			btop.enable = true;
 		};

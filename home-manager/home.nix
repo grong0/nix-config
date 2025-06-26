@@ -135,7 +135,7 @@
 			jdk21
 			maven
 			unzip
-			# rustup
+			rustup
 			# rustc
 			eza
 			monitor
@@ -207,7 +207,7 @@
 			smlnj
 			vlc
 			obs-studio
-			wtf
+			wtfutil
 			openscad
 			freecad-wayland
 			# kicad
@@ -256,7 +256,9 @@
 	};
 
 	# Let Home Manager install and manage itself.
-	programs.home-manager.enable = true;
+	programs.home-manager = {
+		enable = true;
+	};
 
 	# Currently Doesn't do Anything
 	programs.autorandr = {

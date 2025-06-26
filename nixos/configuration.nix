@@ -135,7 +135,7 @@
 
 	# Sound with Pipewire
 	# sound.enable = true;
-	hardware.pulseaudio.enable = false;
+	services.pulseaudio.enable = false;
 	security.rtkit.enable = true;
 	services.pipewire = {
 		enable = true;
@@ -161,6 +161,7 @@
 	# Home Manager
 	home-manager = {
 		extraSpecialArgs = { inherit inputs outputs; };
+		backupFileExtension = "hm-backup";
 		users = {
 			"garrett" = import ../home-manager/home.nix;
 		};
@@ -262,5 +263,5 @@
 	nix.settings.download-buffer-size = 524288000;
 
 	# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-	system.stateVersion = "25.05";
+	system.stateVersion = "24.11";
 }

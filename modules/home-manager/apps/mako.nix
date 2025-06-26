@@ -1,9 +1,9 @@
 { ... }: {
 	services.mako = {
 		enable = true;
-		anchor = "top-center";
-		defaultTimeout = 5000;
 		settings = {
+			anchor = "top-center";
+			default-timeout = 5000;
 			"urgency=high" = {
 				"default-timeout" = 0;
 			};

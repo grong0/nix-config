@@ -183,7 +183,7 @@
 				};
 			};
 		};
-		style = lib.mkAfter ''
+		style = ''
 			* {
 				border: none;
 				border-radius: 0px;
