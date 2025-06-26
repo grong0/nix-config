@@ -14,6 +14,9 @@
 		zed-editor = import ./apps/zed-editor.nix;
 		chadwm = import ./apps/chadwm.nix;
 		eww = import ./apps/eww.nix;
-		btop = import ./app/btop.nix;
+		btop = import ./apps/btop.nix;
+		neovim = import ./apps/neovim.nix;
+		webcord = import ./apps/webcord.nix;
+		rofi = import ./apps/rofi.nix;
 	};
 }

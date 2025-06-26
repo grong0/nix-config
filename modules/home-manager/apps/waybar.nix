@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ pkgs, config, lib, ... }: {
+	home.packages = with pkgs; [ python311Packages.pyquery ];
 	programs.waybar = {
 		enable = true;
 		settings = {
@@ -15,12 +16,13 @@
 					"hyprland/window"
 				];
 				modules-center = [
-					"custom/bar-gmail"
+					# "custom/bar-gmail"
 					"clock"
 					"custom/weather"
 				];
 				modules-right = [
 					"network"
+					"cpu"
 					"temperature"
 					"custom/power_profile"
 					"battery"
@@ -71,7 +73,7 @@
 				# };
 
 				"custom/weather" = {
-					exec = "python ~/.config/waybar/scripts/weather.py";
+					exec = "python ~/.config/waybar/scripts/weather/weather.py";
 					restart-interval = 300;
 					return-type = "json";
 					on-click = "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)";
@@ -79,8 +81,8 @@
 				};
 
 				"custom/bar-gmail" = {
-					# exec = "python ~/Coding\\ Programs/Google\\ Auth/quickstart.py";
-					exec = "bar-gmail -f waybar";
+					exec = "python ~/Coding\\ Programs/Google\\ Auth/quickstart.py";
+					# exec = "bar-gmail -f waybar";
 					tooltip = false;
 					interval = 10;
 					return-type = "json";
@@ -173,9 +175,15 @@
 					tooltip-format-connected = " {device_enumerate}";
 					tooltip-format-enumerate-connected = "{device_alias}";
 				};
+
+				cpu = {
+					interval = 1;
+					format = "{avg_frequency} GHz ";
+					# "max-length" = 10;
+				};
 			};
 		};
-		style = ''
+		style = lib.mkAfter ''
 			* {
 				border: none;
 				border-radius: 0px;
@@ -228,6 +236,7 @@
 				border-radius: 20px;
 			}
 
+			#cpu,
 			#custom-power_profile,
 			#custom-weather,
 			#custom-bar-gmail,
@@ -250,8 +259,13 @@
 				border: 2px solid @base03;
 			}
 
-			#temperature {
+			#cpu {
 				border-radius: 20px 0px 0px 20px;
+				border-right: 0px;
+			}
+
+			#temperature {
+				border-left: 0px;
 				border-right: 0px;
 			}
 

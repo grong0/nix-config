@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 	imports = [
-		./themes/catppuccin-frappe/default.nix
+		./themes/ayu-dark/default.nix
 	];
 
 	stylix = {
@@ -33,6 +33,7 @@
 		enable = true;
 		targets = {
 			waybar = {
+				enable = false;
 				enableCenterBackColors = false;
 				enableLeftBackColors = false;
 				enableRightBackColors = false;

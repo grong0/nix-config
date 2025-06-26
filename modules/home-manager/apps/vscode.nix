@@ -18,6 +18,7 @@
 			ms-vsliveshare.vsliveshare
 			ms-vscode-remote.remote-ssh
 			# AUTHOR mikeylau.typewriter-auto-scroll
+			editorconfig.editorconfig
 
 			# Global Themeing
 			pkief.material-icon-theme
@@ -65,6 +66,7 @@
 			# AUTHOR danielpinto8zz6.c-cpp-compile-run
 			twxs.cmake
 			ms-vscode.cmake-tools
+			vadimcn.vscode-lldb
 
 			# C#
 			ms-dotnettools.csharp
@@ -84,12 +86,19 @@
 			tamasfe.even-better-toml
 			# AUTHOR platformio.platformio-ide
 			redhat.vscode-xml
+			azdavis.millet
 		] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
 			{
 				name = "platformio-ide";
 				publisher = "PlatformIO";
 				version = "3.3.4";
 				sha256 = "QF5jdHKOjlxPaPD5OnzgzaQIWmmENVtsmocedpfkrPw=";
+			}
+			{
+				name = "vscode-c-cpp-config";
+				publisher = "franneck94";
+				version = "6.3.0";
+				sha256 = "oLxZt3ww0GT7QKXg2x7u3V8nd4H5KBUDGzJppQ5fRcs=";
 			}
 		];
 		userSettings = {
@@ -125,7 +134,7 @@
 
 			# Editor
 			"editor.cursorBlinking" = "smooth";
-			"editor.cursorStyle" = "block-outline";
+			"editor.cursorStyle" = "block"; #block-outline
 			"editor.cursorWidth" = 3;
 			"editor.cursorSmoothCaretAnimation" = "on";
 			# "editor.fontFamily" = "'JetBrainsMono Nerd Font'; 'Fira Code'; Consolas; 'Courier New'; monospace";
@@ -193,9 +202,12 @@
 			"[python]" = {
 				"editor.defaultFormatter" = "ms-python.black-formatter";
 				"editor.formatOnType" = true;
+				"editor.insertSpaces" = true;
 			};
-			"python.analysis.autoImportCompletions" = true;
-			"python.analysis.typeCheckingMode" = "basic";
+			"python.languageServer" = "Jedi";
+			# REQUIRES PYLANCE
+			# "python.analysis.autoImportCompletions" = true;
+			# "python.analysis.typeCheckingMode" = "basic";
 			# Java
 			"[java]" = {
 				"editor.defaultFormatter" = "redhat.java";

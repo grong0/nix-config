@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
 	# home.packages = with pkgs; [
 	# 	vulkan-tools
 	# 	mesa
@@ -7,9 +7,18 @@
 		zed-editor
 	];
 
+	# because stylix aint working for this
+	programs.zed-editor.userSettings = {
+		"buffer_font_family" = config.stylix.fonts.monospace.name;
+		"buffer_font_size" = config.stylix.fonts.sizes.terminal * 4.0 / 3.0;
+		# "theme" = "Base16 ${config.lib.stylix.colors.scheme-name}";
+		"ui_font_family" = config.stylix.fonts.sansSerif.name;
+		"ui_font_size" = config.stylix.fonts.sizes.applications * 4.0 / 3.0;
+    };
+
 	programs.zed-editor = {
 		enable = true;
-		extensions = [ "nix" "toml" "ruff" "emmet" "SQL" "xml" "ocaml" "scss" "sml" ];
+		extensions = [ "nix" "toml" "ruff" "emmet" "SQL" "xml" "ocaml" "scss" "sml" "ini" ];
 		userKeymaps = [
 			{
 				context = "Editor";
@@ -22,8 +31,8 @@
 		userSettings = {
 			# theme = {
 			# 	mode = "dark";
-			# 	dark = "Gruvbox Dark";
-			# 	light = "Gruvbox Light";
+			# 	dark = "Ayu Dark";
+			# 	light = "Ayu Light";
 			# };
 			autosave = {
 				after_delay = {
@@ -55,8 +64,8 @@
                 # right_padding = 0.15;
             # };
 
-            buffer_font_size = 18;
-            buffer_font_family = "JetBrainsMono Nerd Font";
+            # buffer_font_size = 18;
+            # buffer_font_family = "JetBrainsMono Nerd Font";
             buffer_font_fallbacks = [ "Symbols Nerd Font Mono" ];
             buffer_font_weight = 500;
 
@@ -79,9 +88,9 @@
                 # env = {
                 #     TERM = "alacritty";
                 # };
-                font_family = "JetBrainsMono Nerd Font";
+                # font_family = "JetBrainsMono Nerd Font";
                 # font_features = null;
-                font_size = 18;
+                # font_size = 18;
                 # line_height = "comfortable";
     			lineHeight = 28;
                 # option_as_meta = false;

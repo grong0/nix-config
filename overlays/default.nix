@@ -20,6 +20,12 @@
 			config.allowUnfree = true;
 		};
 	};
+	# stable-packages = final: _prev: {
+	# 	stable = import inputs.nixpkgs-stable {
+	# 		system = final.system;
+	# 		config.allowUnfree = true;
+	# 	};
+	# };
 
 	# nix-ros-overlay = final: _prev: {
 	# 	nix-ros-overlay = import inputs.nix-ros-overlay {

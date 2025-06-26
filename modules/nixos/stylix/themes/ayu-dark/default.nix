@@ -6,8 +6,9 @@
 
 		fonts = {
 			monospace = {
-				package = pkgs.nerdfonts;
-				name = "JetBrainsMonoNerdFont";
+				# package = pkgs.nerd-fonts.jetbrains-mono;
+				package = pkgs.nerd-fonts.jetbrains-mono;
+				name = "JetBrainsMono Nerd Font";
 			};
 			sansSerif = {
 				package = pkgs.ubuntu_font_family;

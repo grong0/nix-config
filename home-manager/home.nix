@@ -1,6 +1,7 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
+	lib,
 	inputs,
 	outputs,
 	pkgs,
@@ -27,6 +28,9 @@
 		eww
 		# chadwm
 		btop
+		neovim
+		webcord
+		rofi
 	]);
 
 	nixpkgs = {
@@ -115,11 +119,9 @@
 			# 	# withOpenASAR = true;
 			# 	withVencord = true;
 			# })
-			# webcord-vencord
 			mattermost-desktop
-			rofi-wayland
 			keepassxc
-			neofetch
+			fastfetch
 			nitch
 			docker
 			git
@@ -134,9 +136,7 @@
 			maven
 			unzip
 			# rustup
-			cargo
-			rustc
-			rustfmt
+			# rustc
 			eza
 			monitor
 			upower
@@ -146,7 +146,6 @@
 			grim
 			swappy
 			slurp
-			neovim
 			ripgrep
 			fzf
 			gitui
@@ -156,7 +155,7 @@
 			udisks
 			unstable.arduino-ide
 			arduino-cli
-			appimagekit
+			# appimagekit
 			brightnessctl
 			pamixer
 			jq
@@ -196,6 +195,7 @@
 			dune_3
 			yt-dlp
 			libgccjit
+			gcc
 			stlink
 			stlink-tool
 			dotnet-sdk
@@ -210,7 +210,11 @@
 			wtf
 			openscad
 			freecad-wayland
-			kicad
+			# kicad
+			parsec-bin
+			bitwarden-desktop
+			# teamviewer
+			chromium
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -248,7 +252,7 @@
 		};
 
 		# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-		stateVersion = "24.11";
+		stateVersion = "25.05";
 	};
 
 	# Let Home Manager install and manage itself.

@@ -128,6 +128,9 @@
 		devmon.enable = true;
 		gvfs.enable = true;
 		udisks2.enable = true;
+
+		# Teamviewer for daemon
+		teamviewer.enable = true;
 	};
 
 	# Sound with Pipewire
@@ -168,9 +171,9 @@
 		packages = with pkgs; [
 			fira-code
 			fira-code-symbols
-			nerdfonts
 			vistafonts
-		];
+		]
+		++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 		fontconfig = {
 			defaultFonts = {
 				monospace = [ "Fira Code" ];
@@ -236,14 +239,28 @@
 	# Stylix
 	# stylix.enable = true;
 
-	# UDEV Rules for Teensy
 	services.udev.extraRules = ''
-		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-		SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-		KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+		# udev Rules for Teensy
+		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{MTP_NO_PROBE}="1"
+		SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
+		KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
+
+		# udev rules for the GPS (Adafruit FT232H)
+		# /etc/udev/rules.d/11-ftdi.rules
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6011", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
 	'';
 
+	# Xbox
+	hardware.xpadneo.enable = true;
+
+	# Download Buffer
+	nix.settings.download-buffer-size = 524288000;
+
 	# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-	system.stateVersion = "24.11";
+	system.stateVersion = "25.05";
 }
