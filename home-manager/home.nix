@@ -23,7 +23,6 @@
 		waybar
 		vesktop
 		mako
-		vscode
 		zed-editor
 		eww
 		# chadwm
@@ -31,6 +30,8 @@
 		neovim
 		webcord
 		rofi
+		vscode
+		obsidian
 	]);
 
 	nixpkgs = {
@@ -41,6 +42,7 @@
 			# outputs.overlays.modifications
 			outputs.overlays.unstable-packages
 			# outputs.overlays.nix-ros-overlay
+			# outputs.overlays.firefox-overlay
 
 			# You can also add overlays exported from other flakes:
 			# neovim-nightly-overlay.overlays.default
@@ -51,17 +53,24 @@
 			#     patches = [ ./change-hello-to-hi.patch ];
 			#   });
 			# })
-			(final: prev: {
-				postman = prev.postman.overrideAttrs(old: rec {
-					version = "20230716100528";
-					src = final.fetchurl {
-						url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
-						sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
-
-						name = "${old.pname}-${version}.tar.gz";
-					};
-				});
-			})
+			# (final: prev: {
+			# 	postman = prev.postman.overrideAttrs(old: rec {
+			# 		version = "20230716100528";
+			# 		src = final.fetchurl {
+			# 			url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
+			# 			sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
+			# 			name = "${old.pname}-${version}.tar.gz";
+			# 		};
+			# 	});
+			# })
+			# (
+			# 	let
+			# 		moz-rev = "master";
+			# 		moz-url = builtins.fetchTarball { url = "https://github.com/mozilla/nixpkgs-mozilla/archive/${moz-rev}.tar.gz";};
+			# 		nightlyOverlay = (import "${moz-url}/firefox-overlay.nix");
+			# 	in
+			# 		nightlyOverlay
+			# )
 		];
 		# Configure your nixpkgs instance
 		config = {
@@ -99,7 +108,7 @@
 			oh-my-zsh
 			nanorc
 			firefox
-			vscode-fhs
+			# latest.firefox-nightly-bin
 			xfce.thunar
 			nautilus
 			(python3.withPackages (ps: with ps; [
@@ -160,7 +169,7 @@
 			pamixer
 			jq
 			unstable.postman
-			obsidian
+			# obsidian
 			valgrind
 			sonar-scanner-cli
 			imv
@@ -202,7 +211,7 @@
 			stm32cubemx
 			stm32loader
 			stm32flash
-			openocd
+			# openocd
 			platformio
 			smlnj
 			vlc
@@ -210,11 +219,14 @@
 			wtfutil
 			openscad
 			freecad-wayland
-			# kicad
+			kicad-unstable-small
 			parsec-bin
 			bitwarden-desktop
 			# teamviewer
 			chromium
+			quartus-prime-lite
+		] ++ [
+			inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage

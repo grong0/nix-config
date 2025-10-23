@@ -1,4 +1,11 @@
 { pkgs, ... }: {
+	programs.vesktop = {
+		enable = true;
+		package = pkgs.vesktop;
+		settings = {
+			
+		};
+	};
 	home = {
 		packages = with pkgs; [
 			vesktop

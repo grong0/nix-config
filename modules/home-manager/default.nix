@@ -18,5 +18,6 @@
 		neovim = import ./apps/neovim.nix;
 		webcord = import ./apps/webcord.nix;
 		rofi = import ./apps/rofi.nix;
+		obsidian = import ./apps/obsidian.nix;
 	};
 }

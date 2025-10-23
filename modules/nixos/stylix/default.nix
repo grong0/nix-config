@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 	imports = [
-		./themes/onedark/default.nix
+		./themes/gruvbox-dark/default.nix
 	];
 
 	stylix = {

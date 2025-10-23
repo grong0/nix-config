@@ -65,7 +65,7 @@
 	};
 
 	# nix-gaming
-	# TODO: MOVE TO HOME-MANAGER
+	# TODO: move to homemanager
 	environment.systemPackages = [
 		inputs.nix-gaming.packages.${pkgs.system}.osu-stable
 	];
@@ -261,6 +261,9 @@
 
 	# Download Buffer
 	nix.settings.download-buffer-size = 524288000;
+
+	# Enable Sway management with homemanager
+	security.polkit.enable = true;
 
 	# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
 	system.stateVersion = "24.11";

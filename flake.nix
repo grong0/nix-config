@@ -33,6 +33,9 @@
 
 		stylix.url = "github:danth/stylix/release-25.05";
 		# stylix.url = "github:danth/stylix/master";
+
+		firefox-nightly.url = "github:nix-community/flake-firefox-nightly";
+		firefox-nightly.inputs.nixpkgs.follows = "nixpkgs";
 	};
 
 	outputs = { self, nixpkgs, nixpkgs-unstable, nix-gaming, home-manager, nixos-hardware, stylix, ... }@ inputs:

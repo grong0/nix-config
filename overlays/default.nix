@@ -20,6 +20,7 @@
 			config.allowUnfree = true;
 		};
 	};
+
 	# stable-packages = final: _prev: {
 	# 	stable = import inputs.nixpkgs-stable {
 	# 		system = final.system;
@@ -45,4 +46,6 @@
 	# 		};
 	# 	});
 	# };
+
+	firefox-overlay = ( import ./firefox-overlay.nix );
 }

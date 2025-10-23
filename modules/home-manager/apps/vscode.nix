@@ -1,7 +1,7 @@
 { pkgs, ... }: {
 	programs.vscode = {
 		enable = true;
-		package = pkgs.vscodium;
+		package = pkgs.vscode;
 		mutableExtensionsDir = false;
 		profiles.default = {
 			enableExtensionUpdateCheck = false;
@@ -48,6 +48,7 @@
 				# AUTHOR emranweb.daisyui-snippet
 				dbaeumer.vscode-eslint
 				# AUTHOR otovo-oss.htmx-tags
+				bradlc.vscode-tailwindcss
 
 				# Java
 				vscjava.vscode-java-debug
@@ -101,6 +102,12 @@
 					version = "6.3.0";
 					sha256 = "oLxZt3ww0GT7QKXg2x7u3V8nd4H5KBUDGzJppQ5fRcs=";
 				}
+				{
+					name = "htmx-tags";
+					publisher = "otovo-oss";
+					version = "0.0.8";
+					sha256 = "sF5VpdmPluygAiGt9a9E/bM/VzA6a++0dR87dweMCyQ=";
+				}
 			];
 			userSettings = {
 				# Structure
@@ -134,10 +141,10 @@
 				"zenMode.showTabs" = "none";
 
 				# Editor
-				"editor.cursorBlinking" = "smooth";
+				"editor.cursorBlinking" = "blink"; #smooth
 				"editor.cursorStyle" = "block"; #block-outline
 				"editor.cursorWidth" = 3;
-				"editor.cursorSmoothCaretAnimation" = "on";
+				"editor.cursorSmoothCaretAnimation" = "off";
 				# "editor.fontFamily" = "'JetBrainsMono Nerd Font'; 'Fira Code'; Consolas; 'Courier New'; monospace";
 				# "editor.fontSize" = 18;
 				"editor.fontWeight" = "500"; # Medium
