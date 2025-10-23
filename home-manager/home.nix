@@ -31,7 +31,7 @@
 		webcord
 		rofi
 		vscode
-		# obsidian
+		obsidian
 	]);
 
 	nixpkgs = {
