@@ -25,7 +25,6 @@
 		mako
 		zed-editor
 		eww
-		# chadwm
 		btop
 		neovim
 		webcord
@@ -169,7 +168,7 @@
 			pamixer
 			jq
 			unstable.postman
-			obsidian
+			# obsidian
 			valgrind
 			sonar-scanner-cli
 			imv

@@ -1,4 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, ... } : {
+	home.packages = with pkgs; [
+		texliveBasic
+	];
+	
 	programs.vscode = {
 		enable = true;
 		package = pkgs.vscode;
@@ -89,6 +93,7 @@
 				# AUTHOR platformio.platformio-ide
 				redhat.vscode-xml
 				azdavis.millet
+				james-yu.latex-workshop
 			] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
 				{
 					name = "platformio-ide";
@@ -300,6 +305,90 @@
 				"better-comments.highlightPlainText" = true;
 				# Godot
 				"godotTools.editorPath.godot4" = "/home/garrett/.nix-profile/bin/godot4";
+				# LaTeX Workshop
+				"latex-workshop.latex.tools" = [
+					{
+						"name" = "latexmk";
+						"command" = "latexmk";
+						"args" = [
+							"-synctex=1"
+							"-interaction=nonstopmode"
+							"-file-line-error"
+							"-pdf"
+							"-outdir=%OUTDIR%"
+							"%DOC%"
+						];
+						"env" = {};
+					}
+					{
+						"name" = "xelatex";
+						"command" = "xelatex";
+						"args" = [
+							"-synctex=1"
+							"-interaction=nonstopmode"
+							"-file-line-error"
+							"%DOC%"
+						];
+						"env" = {};
+					}
+					{
+						"name" = "pdflatex";
+						"command" = "pdflatex";
+						"args" = [
+							"-synctex=1"
+							"-interaction=nonstopmode"
+							"-file-line-error"
+							"%DOC%"
+						];
+						"env" = {};
+					}
+					{
+						"name" = "bibtex";
+						"command" = "bibtex";
+						"args" = [
+							"%DOCFILE%"
+						];
+						"env" = {};
+					}
+				];
+				"latex-workshop.latex.recipes" = [
+					{
+						"name" = "pdfLaTeX";
+						"tools" = [
+							"pdflatex"
+						];
+					}
+					{
+						"name" = "latexmk 🔃";
+						"tools" = [
+							"latexmk"
+						];
+					}
+					{
+						"name" = "xelatex";
+						"tools" = [
+							"xelatex"
+						];
+					}
+					{
+						"name" = "pdflatex ➞ bibtex ➞ pdflatex`×2";
+						"tools" = [
+							"pdflatex"
+							"bibtex"
+							"pdflatex"
+							"pdflatex"
+						];
+					}
+					{
+						"name" = "xelatex ➞ bibtex ➞ xelatex`×2";
+						"tools" = [
+							"xelatex"
+							"bibtex"
+							"xelatex"
+							"xelatex"
+						];
+					}
+				];
 			};
 		};
 	};
