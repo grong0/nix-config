@@ -5,7 +5,7 @@
 	
 	programs.vscode = {
 		enable = true;
-		package = pkgs.vscode;
+		package = pkgs.vscodium;
 		mutableExtensionsDir = false;
 		profiles.default = {
 			enableExtensionUpdateCheck = false;
@@ -114,6 +114,7 @@
 					sha256 = "sF5VpdmPluygAiGt9a9E/bM/VzA6a++0dR87dweMCyQ=";
 				}
 			];
+			# TODO: the native window bar is back, find a way to remove it
 			userSettings = {
 				# Structure
 				# Workbench
