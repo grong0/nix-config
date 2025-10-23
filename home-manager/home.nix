@@ -31,7 +31,7 @@
 		webcord
 		rofi
 		vscode
-		obsidian
+		# obsidian
 	]);
 
 	nixpkgs = {
@@ -169,7 +169,7 @@
 			pamixer
 			jq
 			unstable.postman
-			# obsidian
+			obsidian
 			valgrind
 			sonar-scanner-cli
 			imv

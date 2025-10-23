@@ -5,6 +5,12 @@
 
 	programs.obsidian = {
 		enable = true;
+		vaults = {
+			obsidian-vault = {
+				enable = true;
+				path = "~/Documents/obsidian-vault";
+			};
+		};
 		defaultSettings = {
 			app = "
 {
