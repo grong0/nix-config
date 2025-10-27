@@ -5,7 +5,7 @@
 	
 	programs.vscode = {
 		enable = true;
-		package = pkgs.vscodium;
+		package = pkgs.vscode;
 		mutableExtensionsDir = false;
 		profiles.default = {
 			enableExtensionUpdateCheck = false;
@@ -40,7 +40,7 @@
 				# AUTHOR zeshuaro.vscode-python-poetry
 
 				# Webdev
-				formulahendry.auto-rename-tag
+				# BASE VSCODE formulahendry.auto-rename-tag
 				# AUTHOR sidthesloth.html5-boilerplate
 				ecmel.vscode-html-css
 				# AUTHOR zignd.html-css-class-completion
@@ -121,10 +121,12 @@
 				"workbench.startupEditor" = "none";
 				"workbench.layoutControl.enabled" = false;
 				"workbench.tips.enabled" = false;
+				"workbench.sideBar.location" = "right";
 				"window.commandCenter" = false;
 				"window.menuBarVisibility" = "toggle";
+				"window.titleBarStyle" = "native";
+				"breadcrumbs.enabled" = false;
 				"update.mode" = "none";
-				"workbench.sideBar.location" = "right";
 
 				# Activity Bar Icons in Status Bar
 				# "activitusbar.alignment" = "Left";
@@ -151,7 +153,7 @@
 				"editor.cursorStyle" = "block"; #block-outline
 				"editor.cursorWidth" = 3;
 				"editor.cursorSmoothCaretAnimation" = "off";
-				# "editor.fontFamily" = "'JetBrainsMono Nerd Font'; 'Fira Code'; Consolas; 'Courier New'; monospace";
+				# "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Fira Code', Consolas, 'Courier New', monospace";
 				# "editor.fontSize" = 18;
 				"editor.fontWeight" = "500"; # Medium
 				"editor.formatOnSave" = true;
@@ -165,6 +167,7 @@
 				"editor.inlayHints.enabled" = "off";
 				"explorer.sortOrder" = "type";
 				"editor.bracketPairColorization.enabled" = false;
+				"editor.linkedEditing" = true;
 
 				# Terminal
 				"terminal.external.osxExec" = "alacritty.app";
@@ -189,10 +192,11 @@
 				"diffEditor.ignoreTrimWhitespace" = false;
 				"workbench.productIconTheme" = "bongocat";
 				"explorer.confirmDelete" = false;
+				"chat.disableAIFeatures" = true;
+				"window.zoomLevel" = 2;
 				# Git
 				"git.openRepositoryInParentFolders" = "always";
 				"git.autofetch" = true;
-				"window.zoomLevel" = 2;
 
 				# Languages
 				# NixOS
