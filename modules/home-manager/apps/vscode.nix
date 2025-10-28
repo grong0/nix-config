@@ -2,10 +2,10 @@
 	home.packages = with pkgs; [
 		texliveBasic
 	];
-	
+
 	programs.vscode = {
 		enable = true;
-		package = pkgs.vscode;
+		package = pkgs.unstable.vscode-fhs;
 		mutableExtensionsDir = false;
 		profiles.default = {
 			enableExtensionUpdateCheck = false;
@@ -112,6 +112,12 @@
 					publisher = "otovo-oss";
 					version = "0.0.8";
 					sha256 = "sF5VpdmPluygAiGt9a9E/bM/VzA6a++0dR87dweMCyQ=";
+				}
+				{
+					name = "wgsl-analyzer";
+					publisher = "wgsl-analyzer";
+					version = "0.12.121";
+					sha256 = "ANcXjZDjrDYFSblO3Xt1wPTmT8jsYVcsQV0LkmZxpiM=";
 				}
 			];
 			# TODO: the native window bar is back, find a way to remove it
