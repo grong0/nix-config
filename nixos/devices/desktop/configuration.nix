@@ -3,19 +3,19 @@
 {
     networking.hostName = "Garretts-Desktop";
 
-    #boot.kernelParams = [ "nvidia_drm.modeset=1" ];
-    #boot.initrd = {
-    #  enable = true;
-    #  kernelModules = [
-    #    "nvidia"
-    #    "nvidia_modeset"
-    #    "nvidia_uvm"
-    #    "nvidia_drm"
-    #  ];
-    #};
-    #boot.extraModprobeConfig = ''
-    #  options nvidia-drm modeset=1
-    #'';
+    boot.kernelParams = [ "nvidia_drm.modeset=1" ];
+    boot.initrd = {
+      enable = true;
+      kernelModules = [
+        "nvidia"
+        "nvidia_modeset"
+        "nvidia_uvm"
+        "nvidia_drm"
+      ];
+    };
+    boot.extraModprobeConfig = ''
+      options nvidia-drm modeset=1
+    '';
 
     hardware.opengl = {
       enable = true;
@@ -23,10 +23,10 @@
       driSupport32Bit = true;
     };
 
-    #nixpkgs.config.allowUnfreePredicate = pkg:
-    #  builtins.elem (lib.getName pkg) [
-    #    "#nvidia-x11"
-    #  ];
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "#nvidia-x11"
+      ];
 
     services.xserver.videoDrivers = [ "nvidia" ];
 
