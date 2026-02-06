@@ -1,26 +1,38 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
-	# inputs,
+	lib,
+	inputs,
 	outputs,
-	# lib,
-	# config,
-	# unstable,
 	pkgs,
 	...
 }: {
 	# You can import other home-manager modules here
 	imports = [
 		# If you want to use modules your own flake exports (from modules/home-manager):
-		# outputs.homeManagerModules.gtk-theme
-		# outputs.homeManagerModules.cursor-theme
 
 		# Or modules exported from other flakes (such as nix-colors):
 		# inputs.nix-colors.homeManagerModules.default
 
 		# You can also split up your configuration and import pieces of it here:
 		# ./nvim.nix
-	];
+	] ++ (with outputs.homeManagerModules.apps; [
+		alacritty
+		hyprland
+		hyprpaper
+		waybar
+		vesktop
+		webcord
+		mako
+		zed-editor
+		eww
+		btop
+		neovim
+		webcord
+		rofi
+		vscode
+		obsidian
+	]);
 
 	nixpkgs = {
 		# You can add overlays here
@@ -29,6 +41,8 @@
 			# outputs.overlays.additions
 			# outputs.overlays.modifications
 			outputs.overlays.unstable-packages
+			# outputs.overlays.nix-ros-overlay
+			# outputs.overlays.firefox-overlay
 
 			# You can also add overlays exported from other flakes:
 			# neovim-nightly-overlay.overlays.default
@@ -39,17 +53,24 @@
 			#     patches = [ ./change-hello-to-hi.patch ];
 			#   });
 			# })
-			(final: prev: {
-				postman = prev.postman.overrideAttrs(old: rec {
-					version = "20230716100528";
-					src = final.fetchurl {
-						url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
-						sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
-
-						name = "${old.pname}-${version}.tar.gz";
-					};
-				});
-			})
+			# (final: prev: {
+			# 	postman = prev.postman.overrideAttrs(old: rec {
+			# 		version = "20230716100528";
+			# 		src = final.fetchurl {
+			# 			url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
+			# 			sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
+			# 			name = "${old.pname}-${version}.tar.gz";
+			# 		};
+			# 	});
+			# })
+			# (
+			# 	let
+			# 		moz-rev = "master";
+			# 		moz-url = builtins.fetchTarball { url = "https://github.com/mozilla/nixpkgs-mozilla/archive/${moz-rev}.tar.gz";};
+			# 		nightlyOverlay = (import "${moz-url}/firefox-overlay.nix");
+			# 	in
+			# 		nightlyOverlay
+			# )
 		];
 		# Configure your nixpkgs instance
 		config = {
@@ -86,38 +107,46 @@
 			zsh
 			oh-my-zsh
 			nanorc
-			unstable.alacritty
 			firefox
-			vscode-fhs
+			# latest.firefox-nightly-bin
 			xfce.thunar
-			xfce.tumbler
-			python3
+			nautilus
+			(python3.withPackages (ps: with ps; [
+				python-lsp-server
+				python-lsp-jsonrpc
+				python-lsp-black
+				python-lsp-ruff
+				pyls-isort
+				pyls-flake8
+				flake8
+				isort
+				black
+				tkinter
+			]))
 			mypy
 			syncthing
-			(pkgs.discord.override {
-				withOpenASAR = true;
-				withVencord = true;
-			})
-			# hyprland
-			# hyprpaper
-			waybar
+			# (discord.override {
+			# 	# withOpenASAR = true;
+			# 	withVencord = true;
+			# })
 			mattermost-desktop
-			rofi-wayland
 			keepassxc
-			neofetch
+			fastfetch
 			nitch
 			docker
 			git
 			slack
-			dbeaver
-			nodejs_21
+			nodejs_22
+			eslint
 			openssl
-			gccgo
+			go
+			gopls
 			gnumake
 			jdk21
 			maven
 			unzip
 			rustup
+			# rustc
 			eza
 			monitor
 			upower
@@ -127,7 +156,6 @@
 			grim
 			swappy
 			slurp
-			neovim
 			ripgrep
 			fzf
 			gitui
@@ -137,13 +165,12 @@
 			udisks
 			unstable.arduino-ide
 			arduino-cli
-			appimagekit
+			# appimagekit
 			brightnessctl
 			pamixer
 			jq
-			btop
 			unstable.postman
-			obsidian
+			# obsidian
 			valgrind
 			sonar-scanner-cli
 			imv
@@ -158,6 +185,50 @@
 			libsForQt5.bismuth
 			cargo-tauri
 			waydroid
+			tailwindcss
+			gparted
+			pgadmin4
+			screen
+			# unstable.multipass
+			p7zip
+			notepadqq
+			distrobox
+			google-fonts
+			godot_4
+			inkscape
+			pavucontrol
+			alejandra
+			# nixd
+			nil
+			wine
+			ocaml
+			dune_3
+			yt-dlp
+			libgccjit
+			gcc
+			stlink
+			stlink-tool
+			dotnet-sdk
+			stm32cubemx
+			stm32loader
+			stm32flash
+			# openocd
+			platformio
+			smlnj
+			vlc
+			obs-studio
+			wtfutil
+			openscad
+			freecad-wayland
+			kicad-unstable-small
+			parsec-bin
+			bitwarden-desktop
+			# teamviewer
+			chromium
+			quartus-prime-lite
+			blender
+		] ++ [
+			inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -195,11 +266,13 @@
 		};
 
 		# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-		stateVersion = "23.11";
+		stateVersion = "25.05";
 	};
 
 	# Let Home Manager install and manage itself.
-	programs.home-manager.enable = true;
+	programs.home-manager = {
+		enable = true;
+	};
 
 	# Currently Doesn't do Anything
 	programs.autorandr = {

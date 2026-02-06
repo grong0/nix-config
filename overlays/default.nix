@@ -21,6 +21,19 @@
 		};
 	};
 
+	# stable-packages = final: _prev: {
+	# 	stable = import inputs.nixpkgs-stable {
+	# 		system = final.system;
+	# 		config.allowUnfree = true;
+	# 	};
+	# };
+
+	# nix-ros-overlay = final: _prev: {
+	# 	nix-ros-overlay = import inputs.nix-ros-overlay {
+	# 		system = final.system;
+	# 	};
+	# };
+
 	# Postman
 	# postman = final: prev: {
 	# 	postman = prev.postman.overrideAttrs(old: rec {
@@ -33,4 +46,6 @@
 	# 		};
 	# 	});
 	# };
+
+	firefox-overlay = ( import ./firefox-overlay.nix );
 }

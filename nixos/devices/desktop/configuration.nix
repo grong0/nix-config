@@ -2,6 +2,7 @@
 
 {
     networking.hostName = "Garretts-Desktop";
+	# networking.networkmanager.enable = true;
 
     boot.kernelParams = [ "nvidia_drm.modeset=1" ];
     boot.initrd = {

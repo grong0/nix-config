@@ -5,13 +5,14 @@
 {
 	# You can import other NixOS modules here
 	imports = [
-		# If you want to use modules your own flake exports (from modules/nixos):
-		# outputs.nixosModules.example
-
 		# Or modules from other flakes (such as nixos-hardware):
 		# inputs.hardware.nixosModules.common-cpu-amd
 		# inputs.hardware.nixosModules.common-ssd
-	];
+	] ++ (with outputs.nixosModules; [
+		stylix
+		hyprland
+		# dwm
+	]);
 
 	nixpkgs = {
 		# You can add overlays here
@@ -44,7 +45,7 @@
 
 	# This will additionally add your inputs to the system's legacy channels
 	# Making legacy nix commands consistent as well, awesome!
-	nix.nixPath = ["/etc/nix/path"];
+	nix.nixPath = [ "/etc/nix/path" "nixpkgs=${inputs.nixpkgs}" ];
 	environment.etc =
 		lib.mapAttrs'
 		(name: value: {
@@ -58,8 +59,16 @@
 		experimental-features = "nix-command flakes";
 		# Deduplicate and optimize nix store
 		auto-optimise-store = true;
+		# Enable Cachix for nix-gaming
+		substituters = ["https://nix-gaming.cachix.org"];
+		trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
 	};
 
+	# nix-gaming
+	# TODO: move to homemanager
+	environment.systemPackages = [
+		inputs.nix-gaming.packages.${pkgs.system}.osu-stable
+	];
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
@@ -104,20 +113,13 @@
 	services = {
 		xserver = {
 			enable = true;
-			displayManager.sddm = {
-				enable = true;
-				#wayland = true;
-			};
-			desktopManager.plasma5.enable = true;
-			# windowManager.hypr.enable = true;
 			xkb = {
 				layout = "us";
 				variant = "";
 			};
-
-			# Enable touchpad support
-			libinput.enable = true;
 		};
+		# Enable touchpad support
+		libinput.enable = true;
 
 		# Enable CUPS to print documents
 		printing.enable = true;
@@ -126,17 +128,14 @@
 		devmon.enable = true;
 		gvfs.enable = true;
 		udisks2.enable = true;
+
+		# Teamviewer for daemon
+		teamviewer.enable = true;
 	};
 
-	# Exluding KDE Plasma packages
-	environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-		plasma-browser-integration
-		konsole
-	];
-
 	# Sound with Pipewire
-	sound.enable = true;
-	hardware.pulseaudio.enable = false;
+	# sound.enable = true;
+	services.pulseaudio.enable = false;
 	security.rtkit.enable = true;
 	services.pipewire = {
 		enable = true;
@@ -154,14 +153,15 @@
 	# Users
 	users.users.garrett = {
 		isNormalUser = true;
-		description = "Garrett Tupper";
-		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" "surface-control" ];
+		description = "Garrett";
+		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" "plugdev" "udev" ];
 		shell = pkgs.zsh;
 	};
 
 	# Home Manager
 	home-manager = {
 		extraSpecialArgs = { inherit inputs outputs; };
+		backupFileExtension = "hm-backup";
 		users = {
 			"garrett" = import ../home-manager/home.nix;
 		};
@@ -172,19 +172,15 @@
 		packages = with pkgs; [
 			fira-code
 			fira-code-symbols
-			nerdfonts
 			vistafonts
-		];
+		]
+		++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 		fontconfig = {
 			defaultFonts = {
 				monospace = [ "Fira Code" ];
 			};
 		};
 	};
-
-	environment.systemPackages = with pkgs; [
-		pavucontrol
-	];
 
 	# Programs
 	programs = {
@@ -195,10 +191,7 @@
 			enable = true;
 			package = pkgs.jdk21;
 		};
-		# hyprland = {
-		# 	enable = true;
-		# 	xwayland.enable = true;
-		# };
+		steam.enable = true;
 	};
 
 	# Syncthing
@@ -213,31 +206,65 @@
 	# Eventually move to `home.nix`w
 	virtualisation.docker.enable = true;
 	virtualisation.waydroid.enable = true;
+	virtualisation.libvirtd.enable = true;
 
 	programs.nix-ld.enable = true;
 
-	# Open ports in the firewall
-	networking.firewall.allowedTCPPorts = [ 8384 22000 ];
-	networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+	# WireGuard
+	networking.firewall = {
+		allowedTCPPorts = [ 8384 22000 ];
+		allowedUDPPorts = [ 51820 22000 21027 ];
+	};
+	# networking.wireguard.interfaces = {
+	# 	wg0 = {
+	# 		ips = [ "10.100.0.2/24" ];
+	# 		listenPort = 51820;
+	# 		privateKeyFile = "~/.config/keyFiles/HomeServer.conf";
+	# 		peers = [{
+	# 			publicKey = "ljD65xZ5xib28s1B9gfOJfYHLdLU8rfhtv02p2DuSBk=";
+	# 			allowedIPs = [ "192.168.1.0/24" ];
+	# 			endpoint = "garrettpc.duckdns.org:51820";
+	# 			persistentKeepalive = 25;
+	# 		}];
+	# 	};
+	# };
 	# Or disable the firewall altogether.
 	# networking.firewall.enable = false;
 
-	# Overlays
-	# TODO: Move these to the overlays directory
-	# nixpkgs.overlays = [
-	# 	(final: prev: {
-	# 		postman = prev.postman.overrideAttrs(old: rec {
-	# 			version = "20230716100528";
-	# 			src = final.fetchurl {
-	# 				url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
-	# 				sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
+	# sway
+	# programs.sway = {
+	# 	enable = true;
+	# 	wrapperFeatures.gtk = true;
+	# };
 
-	# 				name = "${old.pname}-${version}.tar.gz";
-	# 			};
-	# 		});
-	# 	})
-	# ];
+	# Stylix
+	# stylix.enable = true;
+
+	services.udev.extraRules = ''
+		# udev Rules for Teensy
+		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{MTP_NO_PROBE}="1"
+		SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
+		KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
+
+		# udev rules for the GPS (Adafruit FT232H)
+		# /etc/udev/rules.d/11-ftdi.rules
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6011", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
+		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
+	'';
+
+	# Xbox
+	hardware.xpadneo.enable = true;
+
+	# Download Buffer
+	nix.settings.download-buffer-size = 524288000;
+
+	# Enable Sway management with homemanager
+	security.polkit.enable = true;
 
 	# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-	system.stateVersion = "23.11";
+	system.stateVersion = "25.05";
 }
