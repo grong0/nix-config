@@ -1,22 +1,22 @@
 { pkgs, ... } : {
 	home.packages = with pkgs; [
-		texliveBasic
+		texliveMedium
 	];
 
 	programs.vscode = {
 		enable = true;
-		package = pkgs.unstable.vscode-fhs;
+		package = pkgs.unstable.vscode;
 		mutableExtensionsDir = false;
 		profiles.default = {
 			enableExtensionUpdateCheck = false;
-			extensions = with pkgs.vscode-extensions; [
+			extensions = with pkgs.unstable.vscode-extensions; [
 				# QOL
 				bierner.emojisense
 				aaron-bond.better-comments
 				usernamehw.errorlens
 				mhutchie.git-graph
-				visualstudioexptteam.vscodeintellicode
-				visualstudioexptteam.intellicode-api-usage-examples
+				# DONT-USE visualstudioexptteam.vscodeintellicode
+				# DONT-USE visualstudioexptteam.intellicode-api-usage-examples
 				christian-kohler.path-intellisense
 				# AUTHOR searking.preview-vscode
 				codezombiech.gitignore
@@ -32,7 +32,7 @@
 				njpwerner.autodocstring
 				ms-python.black-formatter
 				ms-python.isort
-				# DOESN'T WORK IN VSCODIUM ms-python.vscode-pylance
+				ms-python.vscode-pylance
 				ms-python.python
 				ms-python.debugpy
 				# EXTENSION NOT USING donjayamanne.python-environment-manager
@@ -119,6 +119,18 @@
 					version = "0.12.121";
 					sha256 = "ANcXjZDjrDYFSblO3Xt1wPTmT8jsYVcsQV0LkmZxpiM=";
 				}
+				{
+					name = "vhdl-by-vhdlwhiz";
+					publisher = "vhdlwhiz";
+					version = "1.3.8";
+					sha256 = "sha256-cnigLiyo29eFEefRaaO9DeB6fllD0YT4e6Sg86U6Axg=";
+				}
+				{
+					name = "vhdl-formatter";
+					publisher = "vinrobot";
+					version = "1.0.5";
+					sha256 = "sha256-C26ja184xLG0lFIWV21lUHGRCLEWDuaAxjceiUZMeOw=";
+				}
 			];
 			# TODO: the native window bar is back, find a way to remove it
 			userSettings = {
@@ -151,7 +163,7 @@
 				"zenMode.fullScreen" = false;
 				"zenMode.hideLineNumbers" = false;
 				"zenMode.hideStatusBar" = false;
-				"zenMode.silentNotifications" = false;
+				"zenMode.silentNotifications" = true;
 				"zenMode.showTabs" = "none";
 
 				# Editor
@@ -228,10 +240,10 @@
 					"editor.formatOnType" = true;
 					"editor.insertSpaces" = true;
 				};
-				"python.languageServer" = "Jedi";
+				# "python.languageServer" = "Jedi";
 				# REQUIRES PYLANCE
-				# "python.analysis.autoImportCompletions" = true;
-				# "python.analysis.typeCheckingMode" = "basic";
+				"python.analysis.autoImportCompletions" = true;
+				"python.analysis.typeCheckingMode" = "basic";
 				# Java
 				"[java]" = {
 					"editor.defaultFormatter" = "redhat.java";
@@ -298,6 +310,7 @@
 				"prettier.useTabs" = true;
 				"prettier.printWidth" = 132;
 				"prettier.tabWidth" = 4;
+				"prettier.documentSelectors" = [ "/home/garrett/.config/Code/User/settings.json" ];
 				# LiveServer
 				"liveServer.settings.donotVerifyTags" = true;
 				"liveServer.settings.donotShowInfoMsg" = true;

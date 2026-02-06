@@ -22,6 +22,7 @@
 		hyprpaper
 		waybar
 		vesktop
+		webcord
 		mako
 		zed-editor
 		eww
@@ -120,6 +121,7 @@
 				flake8
 				isort
 				black
+				tkinter
 			]))
 			mypy
 			syncthing
@@ -224,6 +226,7 @@
 			# teamviewer
 			chromium
 			quartus-prime-lite
+			blender
 		] ++ [
 			inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
 		];
