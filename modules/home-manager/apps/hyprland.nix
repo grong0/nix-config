@@ -48,15 +48,15 @@
 					tap-to-click = false;
 					tap-and-drag = false;
 				};
-				sensitivity = 0.3;
+				sensitivity = 0.0;
 			};
 
 			general = {
 				gaps_in = 5;
-				gaps_out = 20;
+				gaps_out = 10;
 				border_size = 2;
-				# "col.active_border" = "rgb(#${config.stylix.generated.palette.base0D})";
-				# "col.inactive_border" = "rgb(#${config.stylix.generated.palette.base01})";
+				"col.active_border" = "rgb(${config.lib.stylix.colors.base0D})";
+				"col.inactive_border" = "rgb(${config.lib.stylix.colors.base03})";
 				layout = "dwindle";
 				allow_tearing = false;
 			};

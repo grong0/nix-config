@@ -91,7 +91,7 @@
 
 				tray = {
 					icon-size = 15;
-					spacing = 10;
+					spacing = 5;
 				};
 
 				clock = {
@@ -160,9 +160,9 @@
 				network = {
 					# interface = "wlp2*" # (Optional) To force the use of this interface
 					format-wifi ="   {signalStrength}%";
-					format-ethernet ="{ipaddr}/{cidr} ";
-					tooltip-format ="{essid} - {ifname} via {gwaddr} ";
-					format-linked ="{ifname} (No IP) ";
+					format-ethernet ="{ipaddr}/{cidr} 󰈀 ";
+					tooltip-format ="{essid} - {ifname} via {gwaddr} 󰈀 ";
+					format-linked ="{ifname} (No IP)  ";
 					format-disconnected ="Disconnected ⚠";
 					format-alt ="{ifname}:{essid} {ipaddr}/{cidr}";
 				};
@@ -196,43 +196,43 @@
 
 			window#waybar {
 				background: rgba(0, 0, 0, 0);
-				color: @base06;
+				color: ${config.lib.stylix.colors.withHashtag.base06};
 			}
 
 			tooltip {
-				background: @base03;
+				background: ${config.lib.stylix.colors.withHashtag.base03};
 				border-radius: 10px;
 				border-width: 2px;
 				border-style: solid;
-				border-color: @base04;
+				border-color: ${config.lib.stylix.colors.withHashtag.base01};
 				transition: 0.3s;
 			}
 
 			#workspaces button {
 				padding: 5px;
-				color: @base05;
+				color: ${config.lib.stylix.colors.withHashtag.base05};
 				margin-right: 5px;
 			}
 
 			#workspaces button.active {
-				color: @base06;
+				color: ${config.lib.stylix.colors.withHashtag.base06};
 			}
 
 			#workspaces button.focused {
-				color: @base05;
-				background: @base08;
+				color: ${config.lib.stylix.colors.withHashtag.base05};
+				background: ${config.lib.stylix.colors.withHashtag.base08};
 				border-radius: 20px;
 			}
 
 			#workspaces button.urgent {
-				color: @base01;
-				background: @base0D;
+				color: ${config.lib.stylix.colors.withHashtag.base01};
+				background: ${config.lib.stylix.colors.withHashtag.base0D};
 				border-radius: 20px;
 			}
 
 			#workspaces button:hover {
-				background: @base00;
-				color: @base050;
+				background: ${config.lib.stylix.colors.withHashtag.base00};
+				color: ${config.lib.stylix.colors.withHashtag.base05};
 				border-radius: 20px;
 			}
 
@@ -251,12 +251,12 @@
 			#workspaces,
 			#tray,
 			#backlight {
-				background: @base00;
+				background: ${config.lib.stylix.colors.withHashtag.base00};
 				opacity: 0.8;
 				padding: 3px 10px;
 				margin: 0;
-				margin-top: 20px;
-				border: 2px solid @base03;
+				margin-top: 10px;
+				border: 2px solid ${config.lib.stylix.colors.withHashtag.base03};
 			}
 
 			#cpu {
@@ -270,7 +270,7 @@
 			}
 
 			#temperature.critical {
-				color: @base08;
+				color: ${config.lib.stylix.colors.withHashtag.base08};
 			}
 
 			#backlight {
@@ -281,20 +281,20 @@
 
 			#tray {
 				border-radius: 20px;
-				margin-right: 20px;
-				padding: 0px 4px;
+				margin-right: 10px;
+				padding: 0px 4px 0px 4px;
 			}
 
 			#workspaces {
 				/* background: #1e1e2e; */
 				border-radius: 20px;
-				margin-left: 20px;
+				margin-left: 10px;
 				padding-right: 0px;
 				padding-left: 5px;
 			}
 
 			#custom-power_profile {
-				color: @base0B;
+				color: ${config.lib.stylix.colors.withHashtag.base0B};
 				border-left: 0px;
 				border-right: 0px;
 			}
@@ -306,7 +306,7 @@
 			}
 
 			#clock {
-				color: @base09;
+				color: ${config.lib.stylix.colors.withHashtag.base09};
 				border-radius: 20px;
 				margin-left: 5px;
 				/* border-right: 0px; */
@@ -315,33 +315,33 @@
 			}
 
 			#network {
-				color: @base0A;
+				color: ${config.lib.stylix.colors.withHashtag.base0A};
 				border-radius: 20px;
 				margin-right: 5px;
 			}
 
 			#bluetooth {
-				color: @base0D;
+				color: ${config.lib.stylix.colors.withHashtag.base0D};
 				border-radius: 20px;
 				margin-right: 10px;
 			}
 
 			#pulseaudio {
-				color: @base0D;
+				color: ${config.lib.stylix.colors.withHashtag.base0D};
 				border-left: 0px;
 				border-right: 0px;
 			}
 
 			#pulseaudio.microphone {
-				color: @base08;
+				color: ${config.lib.stylix.colors.withHashtag.base08};
 				border-radius: 0px 20px 20px 0px;
 				border-left: 0px;
-				margin-right: 20px;
+				margin-right: 5px;
 				padding-right: 8px;
 			}
 
 			#battery {
-				color: @base0B;
+				color: ${config.lib.stylix.colors.withHashtag.base0B};
 				border-radius: 0 20px 20px 0;
 				margin-right: 5px;
 				border-left: 0px;
@@ -357,42 +357,42 @@
 
 			/* Custom Weather Module */
 			#custom-weather.severe {
-				color: @base08;
+				color: ${config.lib.stylix.colors.withHashtag.base08};
 			}
 
 			#custom-weather.sunnyDay {
-				color: @base0B;
+				color: ${config.lib.stylix.colors.withHashtag.base0B};
 			}
 
 			#custom-weather.clearNight {
-				color: @base0E;
+				color: ${config.lib.stylix.colors.withHashtag.base0E};
 			}
 
 			#custom-weather.cloudyFoggyDay, #custom-weather.cloudyFoggyNight {
-				color: @base0D;
+				color: ${config.lib.stylix.colors.withHashtag.base0D};
 			}
 
 			#custom-weather.rainyDay, #custom-weather.rainyNight {
-				color: @base0D;
+				color: ${config.lib.stylix.colors.withHashtag.base0D};
 			}
 
 			#custom-weather.showyIcyDay, #custom-weather.snowyIcyNight {
-				color: @base0C;
+				color: ${config.lib.stylix.colors.withHashtag.base0C};
 			}
 
 			#custom-weather.default {
-				color: @base06;
+				color: ${config.lib.stylix.colors.withHashtag.base06};
 			}
 
 			/* Custom Gmail Module */
 			#custom-bar-gmail.unread {
-				color: @base06;
+				color: ${config.lib.stylix.colors.withHashtag.base06};
 			}
 			#custom-bar-gmail.inaccurate {
-				color: @base09;
+				color: ${config.lib.stylix.colors.withHashtag.base09};
 			}
 			#custom-bar-gmail.error {
-				color: @base08;
+				color: ${config.lib.stylix.colors.withHashtag.base08};
 			}
 		'';
 	};
