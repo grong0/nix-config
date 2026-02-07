@@ -86,10 +86,6 @@
 				preserve_split = "yes"; # you probably want this
 			};
 
-			gestures = {
-				workspace_swipe = true;
-			};
-
 			misc = {
 				force_default_wallpaper = 0;
 				vfr = true;
