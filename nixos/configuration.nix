@@ -66,9 +66,9 @@
 
 	# nix-gaming
 	# TODO: move to homemanager
-	environment.systemPackages = [
-		inputs.nix-gaming.packages.${pkgs.system}.osu-stable
-	];
+	# environment.systemPackages = [
+	# 	inputs.nix-gaming.packages.${pkgs.system}.osu-stable
+	# ];
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
@@ -172,7 +172,7 @@
 		packages = with pkgs; [
 			fira-code
 			fira-code-symbols
-			vistafonts
+			vista-fonts
 		]
 		++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 		fontconfig = {

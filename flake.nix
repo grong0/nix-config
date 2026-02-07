@@ -3,7 +3,7 @@
 
 	inputs = {
 		# Nixpkgs
-		nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
 		# nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 		# You can access packages and modules from different nixpkgs revs
 		# at the same time. Here's an working example:
@@ -14,7 +14,7 @@
 		nix-gaming.url = "github:fufexan/nix-gaming";
 
 		# Home manager
-		home-manager.url = "github:nix-community/home-manager/release-25.05";
+		home-manager.url = "github:nix-community/home-manager/release-25.11";
 		# home-manager.url = "github:nix-community/home-manager/master";
 		home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -31,7 +31,7 @@
 		# everything match nicely? Try nix-colors!
 		# nix-colors.url = "github:misterio77/nix-colors";
 
-		stylix.url = "github:danth/stylix/release-25.05";
+		stylix.url = "github:danth/stylix/release-25.11";
 		# stylix.url = "github:danth/stylix/master";
 
 		firefox-nightly.url = "github:nix-community/flake-firefox-nightly";

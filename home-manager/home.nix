@@ -182,7 +182,7 @@
 			dnsmasq
 			wine
 			teensy-loader-cli
-			libsForQt5.bismuth
+			# libsForQt5.bismuth
 			cargo-tauri
 			waydroid
 			tailwindcss
@@ -228,7 +228,7 @@
 			quartus-prime-lite
 			blender
 		] ++ [
-			inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
+			# inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -321,7 +321,8 @@
 	};
 
 	nixpkgs.config.permittedInsecurePackages = [
-		"electron-25.9.0"
+		"electron-36.9.5"
+		"qtwebengine-5.15.19"
 	];
 
 	# Add stuff for your user as you see fit:
