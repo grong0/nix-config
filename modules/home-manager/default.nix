@@ -19,5 +19,6 @@
 		webcord = import ./apps/webcord.nix;
 		rofi = import ./apps/rofi.nix;
 		obsidian = import ./apps/obsidian.nix;
+		zsh = import ./apps/zsh.nix;
 	};
 }

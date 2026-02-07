@@ -32,6 +32,7 @@
 		rofi
 		vscode
 		obsidian
+		zsh
 	]);
 
 	nixpkgs = {
