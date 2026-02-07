@@ -5,7 +5,7 @@
 {
 	hyprland = import ./desktop-environments/hyprland.nix;
 	i3 = import ./desktop-environments/i3.nix;
-	kde = import ./desktop-environments/kde.nix;
+	# kde = import ./desktop-environments/kde.nix;
 	dwm = import ./desktop-environments/dwm.nix;
 
 	stylix = import ./stylix/default.nix;

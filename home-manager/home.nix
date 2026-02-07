@@ -191,7 +191,7 @@
 			screen
 			# unstable.multipass
 			p7zip
-			notepadqq
+			# notepadqq # ! WARN: uses electron? and qtwebengine that takes literal years to build (both insecure)
 			distrobox
 			google-fonts
 			godot_4
@@ -266,7 +266,7 @@
 		};
 
 		# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-		stateVersion = "25.05";
+		stateVersion = "25.11";
 	};
 
 	# Let Home Manager install and manage itself.
@@ -316,14 +316,11 @@
 
 	programs.git = {
 		enable = true;
-		userName = "grong0";
-		userEmail = "garrett59100@gmail.com";
+		settings.user = {
+			name = "grong0";
+			email = "garrett59100@gmail.com";
+		};
 	};
-
-	nixpkgs.config.permittedInsecurePackages = [
-		"electron-36.9.5"
-		"qtwebengine-5.15.19"
-	];
 
 	# Add stuff for your user as you see fit:
 	# programs.neovim.enable = true;

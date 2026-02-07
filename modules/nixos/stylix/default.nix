@@ -25,7 +25,7 @@
 		targets = {
 			gnome.enable = true;
 			gtk.enable = true;
-			grub.useImage = true;
+			grub.useWallpaper = true;
 		};
 	};
 
