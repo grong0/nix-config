@@ -5,14 +5,14 @@
 		settings = {
 			monitor = [
 				# laptop
-				"eDP-1,2496x1664@60, 0x0, 1.3"
+				"eDP-1, 2496x1664@60, 0x0, 1.3"
 
 				# home-desktop
-				"DP-1,1920x1080@80, 0x0, 1.0"
-				"HDMI-A-1,1600x900@60, auto, 1.0"
+				"DP-1, 1920x1080@75.00, 0x0, auto"
+				"HDMI-A-1, 1600x900@75.00, auto, auto"
 
 				# extra
-				",preferred,auto,1.0"
+				", preferred, auto, 1.0"
 			];
 			xwayland.force_zero_scaling = true;
 
