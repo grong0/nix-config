@@ -166,6 +166,8 @@
 			"garrett" = import ../home-manager/home.nix;
 		};
 	};
+	# for enableCompletion
+	environment.pathsToLink = [ "/share/zsh" ];
 
 	# Fonts
 	fonts = {

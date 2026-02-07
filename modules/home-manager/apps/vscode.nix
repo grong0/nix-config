@@ -179,8 +179,8 @@
 				"editor.foldingHighlight" = false;
 				"editor.smoothScrolling" = true;
 				"editor.fontLigatures" = true;
-				"editor.lineHeight" = 23; # 28 # Ratio = 18/23
-				"editor.renderLineHighlight" = "none";
+				# "editor.lineHeight" = 23; # 28 # Ratio = 18/23
+				"editor.renderLineHighlight" = "all";
 				"editor.guides.indentation" = false;
 				"editor.inlayHints.enabled" = "off";
 				"explorer.sortOrder" = "type";
@@ -201,10 +201,6 @@
 				"files.autoSave" = "afterDelay";
 				"terminal.integrated.gpuAcceleration" = "on";
 				"editor.insertSpaces" = false;
-				"files.associations" = {
-					"*.css" = "css";
-					"css" = "css";
-				};
 				"explorer.confirmDragAndDrop" = false;
 				"editor.detectIndentation" = false;
 				"diffEditor.ignoreTrimWhitespace" = false;
@@ -259,6 +255,10 @@
 				# CSS
 				"[css]" = {
 					"editor.defaultFormatter" = "esbenp.prettier-vscode";
+				};
+				"files.associations" = {
+					"*.css" = "css";
+					"css" = "css";
 				};
 				# SCSS
 				"[scss]" = {

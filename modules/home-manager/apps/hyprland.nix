@@ -4,7 +4,14 @@
 		enable = true;
 		settings = {
 			monitor = [
+				# laptop
 				"eDP-1,2496x1664@60, 0x0, 1.3"
+
+				# home-desktop
+				"DP-1,1920x1080@80, 0x0, 1.0"
+				"HDMI-A-1,1600x900@60, auto, 1.0"
+
+				# extra
 				",preferred,auto,1.0"
 			];
 			xwayland.force_zero_scaling = true;
@@ -15,7 +22,7 @@
 				"xinput set-prop 12 324 0"
 				"xinput set-prop 12 322 40"
 				"sudo chmod u+w /sys/firmware/acpi/platform_profile"
-				"syncthing"
+				# "syncthing"
 				# "alias ls='exa --icons --git -l --no-user --no-time --no-permissions --no-filesize --group-directories-first'"
 				"udiskie -atv"
 				"lxqt-policykit-agent"
@@ -69,7 +76,7 @@
 			};
 
 			animations = {
-				enabled = "yes";
+				enabled = "no";
 				bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
 				animation = [
 					"windows, 1, 7, myBezier"
