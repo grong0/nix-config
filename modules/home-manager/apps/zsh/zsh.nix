@@ -26,6 +26,7 @@
 
 		shellGlobalAliases = {
 			ls = "exa --icons -l --no-user --no-time --no-permissions --group-directories-first --color-scale";
+			lsa = "exa --icons -l --group-directories-first --color-scale";
 			rebuild-laptop = "sudo nixos-rebuild switch --impure --flake ~/.nix-config#laptop";
 			rebuild-desktop = "sudo nixos-rebuild switch --impure --flake ~/.nix-config#desktop";
 			clea = "clear";

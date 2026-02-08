@@ -178,7 +178,6 @@
 			gimp
 			poetry
 			libreoffice
-			steam
 			powertop
 			dnsmasq
 			wine
@@ -228,6 +227,8 @@
 			chromium
 			quartus-prime-lite
 			blender
+			mangohud
+			mangojuice
 		] ++ [
 			# inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
 		];

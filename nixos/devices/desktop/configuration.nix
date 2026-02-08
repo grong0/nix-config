@@ -7,16 +7,10 @@
 	];
 
 	networking.hostName = "Garretts-Desktop";
-	# networking.networkmanager.enable = true;
 
 	hardware.graphics.enable = true;
 
 	services.xserver.videoDrivers = [ "nvidia" ];
-
-	# nixpkgs.config.allowUnfreePredicate = pkg:
-	#   builtins.elem (lib.getName pkg) [
-	#     "#nvidia-x11"
-	#   ];
 
 	hardware.nvidia = {
 		# Modesetting is required.
@@ -46,5 +40,28 @@
 
 		# Optionally, you may need to select the appropriate driver version for your specific GPU.
 		package = config.boot.kernelPackages.nvidiaPackages.stable;
+	};
+
+	boot.supportedFilesystems = [ "ntfs" ];
+
+	fileSystems."/mnt/windows11" = {
+		device = "/dev/disk/by-uuid/D0621033621020B0";
+		fsType = "ntfs";
+		options = [
+			"users" # Allows any user to mount/unmount
+			"nofail" # Allows system to continue to boot if drive cannot be mounted
+			"exec" # Allows execution of files
+			"uid=garrett" # For Steam wine wanting you to own the files it uses
+		];
+	};
+	fileSystems."/mnt/6tb-hdd" = {
+		device = "/dev/disk/by-uuid/0485FFF0399BC427";
+		fsType = "ntfs";
+		options = [
+			"users" # Allows any user to mount/unmount
+			"nofail" # Allows system to continue to boot if drive cannot be mounted
+			"exec" # Allows execution of files
+			"uid=garrett" # For Steam wine wanting you to own the files it uses
+		];
 	};
 }
