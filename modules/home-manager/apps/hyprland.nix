@@ -17,6 +17,7 @@
 			xwayland.force_zero_scaling = true;
 
 			exec-once = [
+				"xrandr --output DP-1 --primary"
 				"waybar"
 				"hyprpaper"
 				"xinput set-prop 12 324 0"
