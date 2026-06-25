@@ -132,15 +132,15 @@
 
 			windowrule = [
 				{ name = "transparent-med"; match.tag = "transparent-med"; opacity = "0.9"; }
-				{ name = "code"; match.class = "^(code)$"; tag = "transparent-med"; }
-				{ name = "VSCodium"; match.class = "^(VSCodium)$"; tag = "transparent-med"; }
-				{ name = "dev.zed.Zed"; match.class = "^(dev.zed.Zed)$"; tag = "transparent-med"; }
-				{ name = "kitty"; match.class = "^(kitty)$"; tag = "transparent-med"; }
-				{ name = "sakura"; match.class = "^(sakura)$"; tag = "transparent-med"; }
-				{ name = "Alacritty"; match.class = "^(Alacritty)$"; tag = "transparent-med"; }
-				# { name = "discord"; match.class = "^(discord)$"; tag = "transparent-med"; }
-				# { name = "vesktop"; match.class = "^(vesktop)$"; tag = "transparent-med"; }
-				# { name = "obsidian"; match.class = "^(obsidian)$"; tag = "transparent-med"; }
+				{ name = "code"; match.class = "^(code)$"; tag = "+transparent-med"; }
+				{ name = "VSCodium"; match.class = "^(VSCodium)$"; tag = "+transparent-med"; }
+				{ name = "dev.zed.Zed"; match.class = "^(dev.zed.Zed)$"; tag = "+transparent-med"; }
+				{ name = "kitty"; match.class = "^(kitty)$"; tag = "+transparent-med"; }
+				{ name = "sakura"; match.class = "^(sakura)$"; tag = "+transparent-med"; }
+				{ name = "Alacritty"; match.class = "^(Alacritty)$"; tag = "+transparent-med"; }
+				# { name = "discord"; match.class = "^(discord)$"; tag = "+transparent-med"; }
+				# { name = "vesktop"; match.class = "^(vesktop)$"; tag = "+transparent-med"; }
+				# { name = "obsidian"; match.class = "^(obsidian)$"; tag = "+transparent-med"; }
 				{ name = "imv"; match.class = "^(imv)$"; float = true; }
 			];
 
