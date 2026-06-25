@@ -2,7 +2,7 @@
 {
 	programs.mangohud = {
 		enable = true;
-		enableSessionWide = true;
+		enableSessionWide = false;
 		
 		settings = {
 			### MangoHud configuration file

@@ -232,13 +232,13 @@
 			package = pkgs.jdk21;
 		};
 		steam = {
-			enable = false;
+			enable = true;
 			gamescopeSession.enable = true;
 			protontricks.enable = true;
 			extraCompatPackages = [
 				pkgs.proton-ge-bin
 				inputs.dw-proton.packages.${pkgs.stdenv.hostPlatform.system}.dw-proton
-				inputs.nix-proton-cachyos.packages.${pkgs.stdenv.hostPlatform.system}.proton-cachyos
+				# inputs.nix-proton-cachyos.packages.${pkgs.stdenv.hostPlatform.system}.proton-cachyos
 			];
 		};
 	};

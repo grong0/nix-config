@@ -41,7 +41,7 @@
 		zen-browser.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
 		dw-proton.url = "github:imaviso/dwproton-flake";
-		nix-proton-cachyos.url = "github:kimjongbing/nix-proton-cachyos";
+		# nix-proton-cachyos.url = "github:kimjongbing/nix-proton-cachyos";
 	};
 
 	outputs = { self, nixpkgs, nixpkgs-unstable, nix-gaming, home-manager, nixos-hardware, stylix, ... }@ inputs:
