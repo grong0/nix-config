@@ -1,6 +1,6 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-{ inputs, outputs, lib, config, pkgs, ... }:
+{ pkgs, inputs, outputs, lib, config, ... }:
 
 {
 	# You can import other NixOS modules here
@@ -11,7 +11,7 @@
 	] ++ (with outputs.nixosModules; [
 		stylix
 		hyprland
-		# dwm
+		sway
 	]);
 
 	nixpkgs = {
@@ -20,7 +20,8 @@
 		# 	# Add overlays your own flake exports (from overlays and pkgs dir):
 		# 	outputs.overlays.additions
 		# 	outputs.overlays.modifications
-		#	outputs.overlays.unstable-packages
+			outputs.overlays.unstable-packages
+			outputs.overlays.openblas
 
 		# 	# You can also add overlays exported from other flakes:
 		# 	# neovim-nightly-overlay.overlays.default
@@ -117,6 +118,16 @@
 				layout = "us";
 				variant = "";
 			};
+			deviceSection = ''
+				Option      "UseEDIDFreqs"  "false"
+
+			# 	Section "Monitor"
+			# 		HorizSync       28.0 - 83.0
+			# 		VertRefresh     50.0 - 85.0
+			# 		Option         "DPMS"
+			# 		Modeline       '1920x1080_75.00'  220.75  1920 2056 2264 2608  1080 1083 1088 1130 -hsync +vsync
+			# 	EndSection
+			'';
 		};
 		# Enable touchpad support
 		libinput.enable = true;
@@ -131,6 +142,27 @@
 
 		# Teamviewer for daemon
 		teamviewer.enable = true;
+		
+		hardware.openrgb = {
+			enable = true;
+			package = pkgs.openrgb-with-all-plugins;
+			motherboard = "amd";
+		};
+		
+		flatpak.enable = true;
+		
+		netdata = {
+			enable = true;
+			package = pkgs.netdata.override {
+				withCloudUi = true;
+			};
+			config.global = {
+				"memory mode" = "ram";
+				"debug log" = "syslog";
+				"access log" = "syslog";
+				"error log" = "syslog";
+			};
+		};
 	};
 
 	# Sound with Pipewire
@@ -139,8 +171,10 @@
 	security.rtkit.enable = true;
 	services.pipewire = {
 		enable = true;
-		alsa.enable = true;
-		alsa.support32Bit = true;
+		alsa = {
+			enable = true;
+			support32Bit = true;
+		};
 		pulse.enable = true;
 		# If you want to use JACK applications, uncomment this
 		#jack.enable = true;
@@ -149,6 +183,10 @@
 		# no need to redefine it in your config for now)
 		#media-session.enable = true;
 	};
+	# checks gets stuck on 29/30 so this is to skip them
+	# environment.systemPackages = [
+	# 	pkgs.openblas
+	# ];
 
 	# Users
 	users.users.garrett = {
@@ -193,7 +231,16 @@
 			enable = true;
 			package = pkgs.jdk21;
 		};
-		steam.enable = true;
+		steam = {
+			enable = false;
+			gamescopeSession.enable = true;
+			protontricks.enable = true;
+			extraCompatPackages = [
+				pkgs.proton-ge-bin
+				inputs.dw-proton.packages.${pkgs.stdenv.hostPlatform.system}.dw-proton
+				# inputs.nix-proton-cachyos.packages.${pkgs.stdenv.hostPlatform.system}.proton-cachyos
+			];
+		};
 	};
 
 	# Syncthing
@@ -206,7 +253,10 @@
 	};
 
 	# Eventually move to `home.nix`w
-	virtualisation.docker.enable = true;
+	virtualisation.docker = {
+		enable = true;
+		package = pkgs.unstable.docker;
+	};
 	virtualisation.waydroid.enable = true;
 	virtualisation.libvirtd.enable = true;
 
@@ -242,21 +292,28 @@
 	# Stylix
 	# stylix.enable = true;
 
-	services.udev.extraRules = ''
-		# udev Rules for Teensy
-		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-		ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{MTP_NO_PROBE}="1"
-		SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
-		KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
+	services.udev = {
+		packages = with pkgs; [
+			platformio-core.udev
+			openocd
+			openocd-rp2040
+		];
+		extraRules = ''
+			# udev Rules for Teensy
+			ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+			ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", ENV{MTP_NO_PROBE}="1"
+			SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
+			KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789]?", MODE:="0666"
 
-		# udev rules for the GPS (Adafruit FT232H)
-		# /etc/udev/rules.d/11-ftdi.rules
-		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", GROUP="plugdev", MODE="0666"
-		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6011", GROUP="plugdev", MODE="0666"
-		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", GROUP="plugdev", MODE="0666"
-		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
-		SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
-	'';
+			# udev rules for the GPS (Adafruit FT232H)
+			# /etc/udev/rules.d/11-ftdi.rules
+			SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", GROUP="plugdev", MODE="0666"
+			SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6011", GROUP="plugdev", MODE="0666"
+			SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", GROUP="plugdev", MODE="0666"
+			SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
+			SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
+		'';
+	};
 
 	# Xbox
 	hardware.xpadneo.enable = true;
@@ -268,5 +325,5 @@
 	security.polkit.enable = true;
 
 	# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-	system.stateVersion = "25.11";
+	system.stateVersion = "26.05";
 }

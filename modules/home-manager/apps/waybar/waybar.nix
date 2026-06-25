@@ -1,5 +1,4 @@
-{ pkgs, config, lib, ... }: {
-	home.packages = with pkgs; [ python311Packages.pyquery ];
+{ pkgs, config, ... }: {
 	programs.waybar = {
 		enable = true;
 		settings = {
@@ -63,21 +62,10 @@
 					signal = 8;
 				};
 
-				# "custom/weather" = {
-				#     # shows the current weather and forecast
-				#     tooltip = true;
-				#     format = "{}";
-				#     interval = 30;
-				#     exec = "~/.config/waybar/scripts/waybar-wttr.py";
-				#     return-type = "json";
-				# };
-
 				"custom/weather" = {
-					exec = "python ~/.config/waybar/scripts/weather/weather.py";
-					restart-interval = 300;
-					return-type = "json";
-					on-click = "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)";
-					# format-alt = "{alt};
+					exec = "${./scripts/weather.py} waybar";
+					"restart-interval" = 900;
+					"return-type" = "json";
 				};
 
 				"custom/bar-gmail" = {
@@ -149,13 +137,6 @@
 					on-scroll-down = "pamixer --default-source -d 5";
 					scroll-step = 5;
 				};
-
-				# temperature = {
-				# 	thermal-zone = 1;
-				# 	format = "{temperatureF}°F ";
-				# 	critical-threshold = 80;
-				# 	format-critical = "{temperatureC}°C ";
-				# };
 
 				network = {
 					# interface = "wlp2*" # (Optional) To force the use of this interface
@@ -350,8 +331,14 @@
 			#custom-weather,
 			#custom-bar-gmail {
 				border-radius: 20px;
-				border-right: 0px;
+			}
+
+			#custom-weather {
 				margin-left: 5px;
+			}
+
+			#custom-bar-gmail {
+				margin-right: 5px;
 			}
 
 

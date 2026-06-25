@@ -7,18 +7,20 @@
 		alacritty = import ./apps/alacritty.nix;
 		hyprland = import ./apps/hyprland.nix;
 		hyprpaper = import ./apps/hyprpaper.nix;
-		waybar = import ./apps/waybar.nix;
+		waybar = import ./apps/waybar/waybar.nix;
 		vesktop = import ./apps/vesktop.nix;
 		mako = import ./apps/mako.nix;
 		vscode = import ./apps/vscode.nix;
 		zed-editor = import ./apps/zed-editor.nix;
 		chadwm = import ./apps/chadwm.nix;
-		eww = import ./apps/eww.nix;
+		eww = import ./apps/eww/eww.nix;
 		btop = import ./apps/btop.nix;
 		neovim = import ./apps/neovim.nix;
 		webcord = import ./apps/webcord.nix;
 		rofi = import ./apps/rofi.nix;
 		obsidian = import ./apps/obsidian.nix;
-		zsh = import ./apps/zsh/zsh.nix;
+		zsh = import ./apps/zsh/default.nix;
+		sway = import ./apps/sway.nix;
+		mangohud = import ./apps/mangohud.nix;
 	};
 }

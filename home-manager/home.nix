@@ -33,6 +33,8 @@
 		vscode
 		obsidian
 		zsh
+		sway
+		mangohud
 	]);
 
 	nixpkgs = {
@@ -44,6 +46,7 @@
 			outputs.overlays.unstable-packages
 			# outputs.overlays.nix-ros-overlay
 			# outputs.overlays.firefox-overlay
+			outputs.overlays.openblas
 
 			# You can also add overlays exported from other flakes:
 			# neovim-nightly-overlay.overlays.default
@@ -110,7 +113,7 @@
 			nanorc
 			firefox
 			# latest.firefox-nightly-bin
-			xfce.thunar
+			thunar
 			nautilus
 			(python3.withPackages (ps: with ps; [
 				python-lsp-server
@@ -134,7 +137,6 @@
 			keepassxc
 			fastfetch
 			nitch
-			docker
 			git
 			slack
 			nodejs_22
@@ -145,6 +147,7 @@
 			gnumake
 			jdk21
 			maven
+			zip
 			unzip
 			rustup
 			# rustc
@@ -213,24 +216,40 @@
 			stm32loader
 			stm32flash
 			# openocd
-			platformio
+			platformio-core
 			smlnj
 			vlc
 			obs-studio
 			wtfutil
 			openscad
 			freecad-wayland
-			kicad-unstable-small
+			kicad
 			parsec-bin
 			bitwarden-desktop
 			# teamviewer
 			chromium
-			quartus-prime-lite
+			# quartus-prime-lite
 			blender
-			mangohud
+			# mangohud
 			mangojuice
+			openfpgaloader
+			prismlauncher
+			etterna
+			qdirstat
+			osu-lazer-bin
+			# steamtinkerlaunch
+			# nexusmods-app
+			picotool
+			openocd-rp2040
+			libusb1
+			kdePackages.kdenlive
+			xenia-canary
+			itch
+			goverlay
+			proton-vpn
 		] ++ [
 			# inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
+			inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 		];
 
 		# Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -265,10 +284,11 @@
 		#
 		sessionVariables = {
 			# NODE_HOME = "${pkgs.nodejs_21}";
+			DEFAULT_BROWSER = "${inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/zen";
 		};
 
 		# https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-		stateVersion = "25.11";
+		stateVersion = "26.05";
 	};
 
 	# Let Home Manager install and manage itself.
@@ -318,15 +338,31 @@
 
 	programs.git = {
 		enable = true;
-		settings.user = {
-			name = "grong0";
-			email = "garrett59100@gmail.com";
+		settings = {
+			user = {
+				name = "grong0";
+				email = "garrett59100@gmail.com";
+			};
+			init.defaultBranch = "main";
+		};
+	};
+	
+	xdg.mimeApps = {
+		enable = true;
+		
+		defaultApplications = {
+			"text/html" = "zen.desktop";
+			"x-scheme-handler/http" = "zen.desktop";
+			"x-scheme-handler/https" = "zen.desktop";
+			"x-scheme-handler/about" = "zen.desktop";
+			"x-scheme-handler/unknown" = "zen.desktop";
 		};
 	};
 
-	# Add stuff for your user as you see fit:
-	# programs.neovim.enable = true;
-	# home.packages = with pkgs; [ steam ];
+	# for bitwarden-desktop
+	nixpkgs.config.permittedInsecurePackages = [
+		"electron-39.8.10"
+	];
 
 	# Nicely reload system units when changing configs
 	systemd.user.startServices = "sd-switch";

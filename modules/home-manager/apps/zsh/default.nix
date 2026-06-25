@@ -32,6 +32,8 @@
 			clea = "clear";
 			rls = "ls";
 			zed = "zeditor";
+			btop = "LD_LIBRARY_PATH=/run/opengl-driver/lib btop";
+			nix-shell = "nix-shell --command zsh";
 			"new-shell" = ''
 touch shell.nix & echo "
 # https://nix.dev/tutorials/declarative-and-reproducible-developer-environments

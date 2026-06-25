@@ -1,59 +1,77 @@
-{ config, ... }:
+{ pkgs, config, ... }:
 
 {
 	imports = [
 		<nixos-hardware/common/cpu/amd>
-		<nixos-hardware/common/gpu/nvidia/turing>
+		# <nixos-hardware/common/gpu/nvidia/turing>
+	];
+	
+	environment.systemPackages = with pkgs; [
+		openrgb-with-all-plugins
+		# tuxclocker # fails to build on 26.05 becuase of documentation
+		# workaround: documentation.doc.enable = false;
+		# tuxclocker-nvidia-plugin
+		# tuxclocker-plugins-with-unfree
 	];
 
 	networking.hostName = "Garretts-Desktop";
 
-	hardware.graphics.enable = true;
-
-	services.xserver.videoDrivers = [ "nvidia" ];
-
-	hardware.nvidia = {
-		# Modesetting is required.
-		modesetting.enable = true;
-
-		# Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-		# Enable this if you have graphical corruption issues or application crashes after waking
-		# up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
-		# of just the bare essentials.
-		powerManagement.enable = false;
-
-		# Fine-grained power management. Turns off GPU when not in use.
-		# Experimental and only works on modern Nvidia GPUs (Turing or newer).
-		powerManagement.finegrained = false;
-
-		# Use the NVidia open source kernel module (not to be confused with the
-		# independent third-party "nouveau" open source driver).
-		# Support is limited to the Turing and later architectures. Full list of
-		# supported GPUs is at:
-		# https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-		# Only available from driver 515.43.04+
-		open = false;
-
-		# Enable the Nvidia settings menu,
-		# accessible via `nvidia-settings`.
-		nvidiaSettings = true;
-
-		# Optionally, you may need to select the appropriate driver version for your specific GPU.
-		package = config.boot.kernelPackages.nvidiaPackages.stable;
+	hardware.graphics = {
+		enable = true;
+		enable32Bit = true;
 	};
+	
+	hardware.amdgpu = {
+		initrd.enable = true;
+		overdrive.enable = true;
+	};
+	
+	services.lact.enable = true;
+
+	# services.xserver.videoDrivers = [ "nvidia" ];
+
+	# hardware.nvidia = {
+	# 	# Modesetting is required.
+	# 	modesetting.enable = true;
+
+	# 	# Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+	# 	# Enable this if you have graphical corruption issues or application crashes after waking
+	# 	# up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+	# 	# of just the bare essentials.
+	# 	powerManagement.enable = false;
+
+	# 	# Fine-grained power management. Turns off GPU when not in use.
+	# 	# Experimental and only works on modern Nvidia GPUs (Turing or newer).
+	# 	powerManagement.finegrained = false;
+
+	# 	# Use the NVidia open source kernel module (not to be confused with the
+	# 	# independent third-party "nouveau" open source driver).
+	# 	# Support is limited to the Turing and later architectures. Full list of
+	# 	# supported GPUs is at:
+	# 	# https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
+	# 	# Only available from driver 515.43.04+
+	# 	open = true;
+
+	# 	# Enable the Nvidia settings menu,
+	# 	# accessible via `nvidia-settings`.
+	# 	nvidiaSettings = true;
+
+	# 	# Optionally, you may need to select the appropriate driver version for your specific GPU.
+	# 	package = config.boot.kernelPackages.nvidiaPackages.latest;
+	# };
 
 	boot.supportedFilesystems = [ "ntfs" ];
 
-	fileSystems."/mnt/windows11" = {
-		device = "/dev/disk/by-uuid/D0621033621020B0";
-		fsType = "ntfs";
-		options = [
-			"users" # Allows any user to mount/unmount
-			"nofail" # Allows system to continue to boot if drive cannot be mounted
-			"exec" # Allows execution of files
-			"uid=garrett" # For Steam wine wanting you to own the files it uses
-		];
-	};
+	# fileSystems."/mnt/windows11" = {
+	# 	device = "/dev/disk/by-uuid/D0621033621020B0";
+	# 	fsType = "ntfs";
+	# 	options = [
+	# 		"users" # Allows any user to mount/unmount
+	# 		"nofail" # Allows system to continue to boot if drive cannot be mounted
+	# 		"exec" # Allows execution of files
+	# 		"uid=garrett" # For Steam wine wanting you to own the files it uses
+	# 	];
+	# };
 	fileSystems."/mnt/6tb-hdd" = {
 		device = "/dev/disk/by-uuid/0485FFF0399BC427";
 		fsType = "ntfs";
@@ -62,6 +80,7 @@
 			"nofail" # Allows system to continue to boot if drive cannot be mounted
 			"exec" # Allows execution of files
 			"uid=garrett" # For Steam wine wanting you to own the files it uses
+			# "rw"
 		];
 	};
 }

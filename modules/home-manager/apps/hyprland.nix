@@ -1,40 +1,63 @@
-{ config, ... }: {
+{ pkgs, config, ... }: {
 	stylix.targets.hyprland.enable = false;
+
+	# Portals
+	# xdg.portal = {
+	# 	config = {
+	# 		hyprland.default = [ "hyprland" "gtk" "gnome" "termfilechooser" ];
+	# 		hyprland."org.freedesktop.portal.FileChooser" = [ "termfilechooser" ];
+	# 		hyprland."org.freedesktop.portal.OpenURI" = [ "termfilechooser" ];
+	# 	};
+
+	# 	extraPortals = with pkgs; [
+	# 		xdg-desktop-portal-hyprland
+	# 		xdg-desktop-portal-termfilechooser
+	# 	];
+	# };
+
+	# for default terminal
+	home.packages = with pkgs; [ kitty ];
+
 	wayland.windowManager.hyprland = {
 		enable = true;
+		configType = "hyprlang";
 		settings = {
 			monitor = [
 				# laptop
 				"eDP-1, 2496x1664@60, 0x0, 1.3"
-
+ 
 				# home-desktop
-				"DP-1, 1920x1080@75.00, 0x0, auto"
-				"HDMI-A-1, 1600x900@75.00, auto, auto"
+				# modeline 220.75 1920 2056 2264 2608 1080 1083 1088 1130 -hsync +vsync
+				"HDMI-A-1, 1920x1080@75, 0x0, auto"
+				"DP-1, 1600x900@75.00, auto, auto"
 
 				# extra
 				", preferred, auto, 1.0"
 			];
-			xwayland.force_zero_scaling = true;
+			# xwayland.force_zero_scaling = true;
 
 			exec-once = [
-				"xrandr --output DP-1 --primary"
+				# "xrandr --newmode '1920x1080_80.00'  236.25  1920 2056 2264 2608  1080 1083 1088 1133 -hsync +vsync"
+				# "xrandr --newmode '1920x1080_75.00'  220.75  1920 2056 2264 2608  1080 1083 1088 1130 -hsync +vsync"
+				# "xrandr --addmode DP-1 1920x1080_80.00"
+				# "xrandr --addmode DP-1 1920x1080_75.00"
+				"xrandr --output HDMI-A-1 --primary"
 				"waybar"
 				"hyprpaper"
 				"xinput set-prop 12 324 0"
 				"xinput set-prop 12 322 40"
 				"sudo chmod u+w /sys/firmware/acpi/platform_profile"
 				# "syncthing"
-				# "alias ls='exa --icons --git -l --no-user --no-time --no-permissions --no-filesize --group-directories-first'"
 				"udiskie -atv"
 				"lxqt-policykit-agent"
 				"mako"
 			];
 
 			workspace = [
-				"1, monitor:DP-1"
-				"2, monitor:DP-1"
-				"3, monitor:HDMI-A-1"
-				"4, monitor:HDMI-A-1"
+				"1, monitor:HDMI-A-1"
+				"2, monitor:HDMI-A-1"
+				"3, monitor:DP-1"
+				"4, monitor:DP-1"
 			];
 
 			# env = [
@@ -97,26 +120,28 @@
 			};
 
 			dwindle = {
-				pseudotile = "yes"; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+				# pseudotile = "yes"; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
 				preserve_split = "yes"; # you probably want this
 			};
 
 			misc = {
 				force_default_wallpaper = 0;
-				vfr = true;
 			};
 
+			debug.vfr = true;
+
 			windowrule = [
-				"opacity 0.9, class:^(Code)$"
-				"opacity 0.9, class:^(VSCodium)$"
-				"opacity 0.9, class:^(dev.zed.Zed)$"
-				"opacity 0.9, class:^(kitty)$"
-				"opacity 0.9, class:^(sakura)$"
-				"opacity 0.9, class:^(Alacritty)$"
-				"opacity 0.9, class:^(discord)$"
-				"opacity 0.9, class:^(vesktop)$"
-				"opacity 0.9, class:^(obsidian)$"
-				"float, class:^(imv)$"
+				{ name = "transparent-med"; match.tag = "transparent-med"; opacity = "0.9"; }
+				{ name = "code"; match.class = "^(code)$"; tag = "transparent-med"; }
+				{ name = "VSCodium"; match.class = "^(VSCodium)$"; tag = "transparent-med"; }
+				{ name = "dev.zed.Zed"; match.class = "^(dev.zed.Zed)$"; tag = "transparent-med"; }
+				{ name = "kitty"; match.class = "^(kitty)$"; tag = "transparent-med"; }
+				{ name = "sakura"; match.class = "^(sakura)$"; tag = "transparent-med"; }
+				{ name = "Alacritty"; match.class = "^(Alacritty)$"; tag = "transparent-med"; }
+				# { name = "discord"; match.class = "^(discord)$"; tag = "transparent-med"; }
+				# { name = "vesktop"; match.class = "^(vesktop)$"; tag = "transparent-med"; }
+				# { name = "obsidian"; match.class = "^(obsidian)$"; tag = "transparent-med"; }
+				{ name = "imv"; match.class = "^(imv)$"; float = true; }
 			];
 
 			"$mainMod" = "SUPER";
@@ -141,7 +166,7 @@
 				", XF86AudioNext, exec, playerctl next"
 				", XF86AudioPrev, exec, playerctl previous"
 				# Screenshot
-				", Print, exec, grim -g \"$(slurp)\" - | swappy -f -"
+				"$mainMod SHIFT, S, exec, grim -g \"$(slurp)\" - | swappy -f -"
 
 				# Open Applications
 				"$mainMod, Return, exec, alacritty"
@@ -152,8 +177,8 @@
 				"$mainMod, Q, killactive,"
 				"$mainMod, M, exit,"
 				"$mainMod, V, togglefloating,"
-				"$mainMod, P, pseudo," # dwindle
-				"$mainMod, J, togglesplit" # dwindle
+				# "$mainMod, P, window.pseudo," # dwindle
+				"$mainMod, J, layoutmsg, togglesplit" # dwindle
 				"$mainMod, F, fullscreen,"
 
 				# Move focus with mainMod + arrow keys

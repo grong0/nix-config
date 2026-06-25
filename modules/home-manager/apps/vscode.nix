@@ -1,5 +1,6 @@
 { pkgs, ... } : {
 	home.packages = with pkgs; [
+		nixd
 		texliveMedium
 	];
 
@@ -24,20 +25,27 @@
 				ms-vscode-remote.remote-ssh
 				# AUTHOR mikeylau.typewriter-auto-scroll
 				editorconfig.editorconfig
+				gruntfuggly.todo-tree
 
 				# Global Themeing
 				pkief.material-icon-theme
 
 				# Python
 				njpwerner.autodocstring
-				ms-python.black-formatter
-				ms-python.isort
+				# ms-python.black-formatter
+				# ms-python.isort
 				ms-python.vscode-pylance
 				ms-python.python
 				ms-python.debugpy
+				charliermarsh.ruff
 				# EXTENSION NOT USING donjayamanne.python-environment-manager
 				# AUTHOR kevinrose.vsc-python-indent
 				# AUTHOR zeshuaro.vscode-python-poetry
+				# ms-toolsai.jupyter
+				# ms-toolsai.jupyter-keymap
+				# ms-toolsai.jupyter-renderers
+				# ms-toolsai.vscode-jupyter-slideshow
+				# ms-toolsai.vscode-jupyter-cell-tags
 
 				# Webdev
 				# BASE VSCODE formulahendry.auto-rename-tag
@@ -83,9 +91,12 @@
 				# AUTHOR visualstudiotoolsforunity.vstuc
 				# AUTHOR kleber-swf.unity-code-snippets
 
+				# Markdown
+				yzhang.markdown-all-in-one
+				davidanson.vscode-markdownlint
+
 				# Misc
 				# AUTHOR geequlim.godot-tools
-				yzhang.markdown-all-in-one
 				jnoortheen.nix-ide
 				mechatroner.rainbow-csv
 				# AUTHOR pixl-garden.bongocat
@@ -94,6 +105,7 @@
 				redhat.vscode-xml
 				azdavis.millet
 				james-yu.latex-workshop
+				streetsidesoftware.code-spell-checker
 			] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
 				{
 					name = "platformio-ide";
@@ -131,6 +143,19 @@
 					version = "1.0.5";
 					sha256 = "sha256-C26ja184xLG0lFIWV21lUHGRCLEWDuaAxjceiUZMeOw=";
 				}
+				{
+					name = "yuck";
+					publisher = "eww-yuck";
+					version = "0.0.3";
+					sha256 = "sha256-DITgLedaO0Ifrttu+ZXkiaVA7Ua5RXc4jXQHPYLqrcM=";
+				}
+				# DOESN'T WORK : Server: Start failed: Error: write EPIPE
+				# {
+				# 	name = "ty";
+				# 	publisher = "astral-sh";
+				# 	version = "2026.20.0";
+				# 	sha256 = "sha256-RveYO0k5wFotZ6R+7vYAIKoHBaurLPzx0Uv0EMPeinc=";
+				# }
 			];
 			# TODO: the native window bar is back, find a way to remove it
 			userSettings = {
@@ -175,7 +200,7 @@
 				# "editor.fontSize" = 18;
 				"editor.fontWeight" = "500"; # Medium
 				"editor.formatOnSave" = true;
-				"editor.minimap.autohide" = true;
+				"editor.minimap.autohide" = "mouseover";
 				"editor.foldingHighlight" = false;
 				"editor.smoothScrolling" = true;
 				"editor.fontLigatures" = true;
@@ -186,6 +211,10 @@
 				"explorer.sortOrder" = "type";
 				"editor.bracketPairColorization.enabled" = false;
 				"editor.linkedEditing" = true;
+				"editor.codeActionsOnSave" = {
+					"source.fixAll" = "explicit";
+					"source.organizeImports" = "explicit";
+				};
 
 				# Terminal
 				"terminal.external.osxExec" = "alacritty.app";
@@ -207,7 +236,7 @@
 				"workbench.productIconTheme" = "bongocat";
 				"explorer.confirmDelete" = false;
 				"chat.disableAIFeatures" = true;
-				"window.zoomLevel" = 2;
+				"window.zoomLevel" = 0;
 				# Git
 				"git.openRepositoryInParentFolders" = "always";
 				"git.autofetch" = true;
@@ -216,8 +245,38 @@
 				# NixOS
 				"nix.serverPath" = "nixd";
 				"nix.enableLanguageServer" = true;
-				"nix.formatterPath" = "alejandra";
+				"nix.formatterPath" = [
+					"alejandra"
+					"nixpkgs-fmt"
+					"nixfmt"
+					"treefmt"
+					"--stdin"
+					"{file}"
+					"nix"
+					"fmt"
+					"--"
+					"-"
+				];
 				"nix.serverSettings" = {
+					"nixd" = {
+						"formatting" = {
+							"command" = [
+								"nixpkgs-fmt"
+							];
+						};
+						"options" = {
+							# "nixos" = {
+							# 	"expr" = "${builtins.getFlake '/absolute/path/to/flake'.nixosConfigurations.<name>.options}";
+							# };
+							# "home-manager" = {
+							# 	"expr" = "${builtins.getFlake '/absolute/path/to/flake'.homeConfigurations.<name>.options}";
+							# };
+							# Tip: use ${workspaceFolder} variable to define path
+							# "nix-darwin" = {
+							# 	"expr" = "(builtins.getFlake \"${workspaceFolder}/path/to/flake\").darwinConfigurations.<name>.options";
+							# };
+						};
+					};
 					"nixpkgs" = {
 						"expr" = "import <nixpkgs> { }";
 					};
@@ -232,14 +291,14 @@
 				};
 				# Python
 				"[python]" = {
-					"editor.defaultFormatter" = "ms-python.black-formatter";
+					"editor.defaultFormatter" = "charliermarsh.ruff";
 					"editor.formatOnType" = true;
 					"editor.insertSpaces" = true;
 				};
 				# "python.languageServer" = "Jedi";
 				# REQUIRES PYLANCE
 				"python.analysis.autoImportCompletions" = true;
-				"python.analysis.typeCheckingMode" = "basic";
+				"python.analysis.typeCheckingMode" = "standard";
 				# Java
 				"[java]" = {
 					"editor.defaultFormatter" = "redhat.java";
@@ -259,18 +318,25 @@
 				"files.associations" = {
 					"*.css" = "css";
 					"css" = "css";
+					"*.rcss" = "css";
+					"*.rml" = "html";
 				};
 				# SCSS
 				"[scss]" = {
 					"editor.defaultFormatter" = "esbenp.prettier-vscode";
 				};
-				# Javascript
+				# Javascript + Flavors
 				"[javascript]" = {
 					"editor.defaultFormatter" = "esbenp.prettier-vscode";
 				};
 				"javascript.updateImportsOnFileMove.enabled" = "always";
-				# Typescript
 				"[typescript]" = {
+					"editor.defaultFormatter" = "esbenp.prettier-vscode";
+				};
+				"[javascriptreact]" = {
+					"editor.defaultFormatter" = "esbenp.prettier-vscode";
+				};
+				"[typescriptreact]" = {
 					"editor.defaultFormatter" = "esbenp.prettier-vscode";
 				};
 				# Svelte
@@ -280,6 +346,7 @@
 				# JSON
 				"[json]" = {
 					"editor.defaultFormatter" = "esbenp.prettier-vscode";
+					"editor.formatOnSave" = false;
 				};
 				"[jsonc]" = {
 					"editor.defaultFormatter" = "esbenp.prettier-vscode";

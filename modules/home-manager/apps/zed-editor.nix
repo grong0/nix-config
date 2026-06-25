@@ -9,7 +9,22 @@
 
 	programs.zed-editor = {
 		enable = true;
-		extensions = [ "nix" "toml" "ruff" "emmet" "SQL" "xml" "ocaml" "scss" "sml" "ini" "html" ];
+		extensions = [
+			"nix"
+			"toml"
+			"ruff"
+			"emmet"
+			"sql"
+			"xml"
+			"ocaml"
+			"scss"
+			"sml"
+			"ini"
+			"html"
+			"make"
+			"editorconfig"
+			# "dockerfile"
+		];
 		userKeymaps = [
 			{
 				context = "Editor";
@@ -43,7 +58,7 @@
 				metrics = false;
 			};
 
-			relative_line_numbers = true;
+			# relative_line_numbers = true;
 
 			cursor_shape = "block";
 
@@ -74,6 +89,9 @@
 
 			languages = {
 				"Python" = {
+					hard_tabs = false;
+				};
+				"YAML" = {
 					hard_tabs = false;
 				};
 			};

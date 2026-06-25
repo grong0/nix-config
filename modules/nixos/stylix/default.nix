@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 	imports = [
-		./themes/gruvbox-dark/default.nix
+		./themes/ayu-dark/default.nix
 	];
 
 	stylix = {
@@ -16,10 +16,10 @@
 				name = "tewmoji-color-font";
 			};
 			sizes = {
-				applications = 12;
-				desktop = 16;
+				applications = 10;
+				desktop = 10;
 				popups = 12;
-				terminal = 14;
+				terminal = 12;
 			};
 		};
 		targets = {
