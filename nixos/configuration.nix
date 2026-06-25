@@ -238,7 +238,7 @@
 			extraCompatPackages = [
 				pkgs.proton-ge-bin
 				inputs.dw-proton.packages.${pkgs.stdenv.hostPlatform.system}.dw-proton
-				# inputs.nix-proton-cachyos.packages.${pkgs.stdenv.hostPlatform.system}.proton-cachyos
+				inputs.nix-proton-cachyos.packages.${pkgs.stdenv.hostPlatform.system}.proton-cachyos
 			];
 		};
 	};
