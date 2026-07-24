@@ -139,7 +139,7 @@
 			nitch
 			git
 			slack
-			nodejs_22
+			nodejs_26
 			eslint
 			openssl
 			go
