@@ -41,11 +41,11 @@
 				# EXTENSION NOT USING donjayamanne.python-environment-manager
 				# AUTHOR kevinrose.vsc-python-indent
 				# AUTHOR zeshuaro.vscode-python-poetry
-				# ms-toolsai.jupyter
-				# ms-toolsai.jupyter-keymap
-				# ms-toolsai.jupyter-renderers
-				# ms-toolsai.vscode-jupyter-slideshow
-				# ms-toolsai.vscode-jupyter-cell-tags
+				ms-toolsai.jupyter
+				ms-toolsai.jupyter-keymap
+				ms-toolsai.jupyter-renderers
+				ms-toolsai.vscode-jupyter-slideshow
+				ms-toolsai.vscode-jupyter-cell-tags
 
 				# Webdev
 				# BASE VSCODE formulahendry.auto-rename-tag
@@ -106,6 +106,10 @@
 				azdavis.millet
 				james-yu.latex-workshop
 				streetsidesoftware.code-spell-checker
+
+				# Keil Studio Pack
+				redhat.vscode-yaml
+				llvm-vs-code-extensions.vscode-clangd
 			] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
 				{
 					name = "platformio-ide";
@@ -132,10 +136,10 @@
 					sha256 = "ANcXjZDjrDYFSblO3Xt1wPTmT8jsYVcsQV0LkmZxpiM=";
 				}
 				{
-					name = "vhdl-by-vhdlwhiz";
-					publisher = "vhdlwhiz";
-					version = "1.3.8";
-					sha256 = "sha256-cnigLiyo29eFEefRaaO9DeB6fllD0YT4e6Sg86U6Axg=";
+					name = "vhdl-ls";
+					publisher = "hbohlin";
+					version = "0.7.0";
+					sha256 = "sha256-Tnqy78daW0EQ590RGREbTsL8lPFTrKvi42T2pG6e1bk=";
 				}
 				{
 					name = "vhdl-formatter";
@@ -148,6 +152,37 @@
 					publisher = "eww-yuck";
 					version = "0.0.3";
 					sha256 = "sha256-DITgLedaO0Ifrttu+ZXkiaVA7Ua5RXc4jXQHPYLqrcM=";
+				}
+				# Keil Studio Pack
+				{
+					name = "keil-studio-pack";
+					publisher = "Arm";
+					version = "1.20.3";
+					sha256 = "sha256-8XXK6u1QoNt3K6VhfrN0cETfE1rD30ZKKKvaEMVQubg=";
+				}
+				{
+					name = "cmsis-csolution";
+					publisher = "Arm";
+					version = "1.70.0";
+					sha256 = "sha256-pKrGg/sOnbJJvFQScXLY+JUH3KY0dYkT6NedXvlKhB4=";
+				}
+				{
+					name = "vscode-cmsis-debugger";
+					publisher = "Arm";
+					version = "1.8.0";
+					sha256 = "sha256-q238Ckz2jt/Yi+54POD16WW9nJOMF8R3R9hwCKU+0dw=";
+				}
+				{
+					name = "environment-manager";
+					publisher = "Arm";
+					version = "1.26.0";
+					sha256 = "sha256-UInK53Ec2zLlFaNa6WTqaOhYrk4IRIF7RUYMtephXS0=";
+				}
+				{
+					name = "arm";
+					publisher = "dan-c-underwood";
+					version = "1.7.4";
+					sha256 = "sha256-gZBM980AoD+0wnfHXJK9sqCuuLtRY08JnO3Qdq/TRfc=";
 				}
 				# DOESN'T WORK : Server: Start failed: Error: write EPIPE
 				# {
@@ -480,6 +515,11 @@
 						];
 					}
 				];
+				# VHDL
+				"vhdl.formatter.case" = {
+					"keyword" = "LowerCase";
+					"typename" = "LowerCase";
+				};
 			};
 		};
 	};
