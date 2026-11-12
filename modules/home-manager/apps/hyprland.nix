@@ -26,10 +26,12 @@
 				# laptop
 				"eDP-1, 2496x1664@60, 0x0, 1.3"
  
-				# home-desktop
+				# desktop
+				"HDMI-A-1, 1920x1080@60.00, 0x0, auto"
+				"DP-1, 1920x1080@165.00, auto, auto"
+				"DP-2, 1920x1080@60.00, auto, auto"
+				"DP-3, 1600x900@60.00, auto, auto"
 				# modeline 220.75 1920 2056 2264 2608 1080 1083 1088 1130 -hsync +vsync
-				"HDMI-A-1, 1920x1080@75, 0x0, auto"
-				"DP-1, 1600x900@75.00, auto, auto"
 
 				# extra
 				", preferred, auto, 1.0"
@@ -55,9 +57,8 @@
 
 			workspace = [
 				"1, monitor:HDMI-A-1"
-				"2, monitor:HDMI-A-1"
-				"3, monitor:DP-1"
-				"4, monitor:DP-1"
+				"2, monitor:DP-1"
+				"3, monitor:DP-2"
 			];
 
 			# env = [

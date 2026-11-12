@@ -247,6 +247,11 @@
 			itch
 			goverlay
 			proton-vpn
+			musescore
+			muse-sounds-manager
+			reaper
+			alsa-scarlett-gui
+			asio
 		] ++ [
 			# inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
 			inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default

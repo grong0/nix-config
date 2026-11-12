@@ -35,8 +35,7 @@
 			btop = "LD_LIBRARY_PATH=/run/opengl-driver/lib btop";
 			nix-shell = "nix-shell --command zsh";
 			"new-shell" = ''
-touch shell.nix & echo "
-# https://nix.dev/tutorials/declarative-and-reproducible-developer-environments
+touch shell.nix & echo "# https://nix.dev/tutorials/declarative-and-reproducible-developer-environments
 with import <nixpkgs> { };
 mkShell {
   # Package names can be found via https://search.nixos.org/packages
@@ -47,8 +46,9 @@ mkShell {
   NIX_ENFORCE_PURITY = true;
 
   shellHook = '''''';
-}" > shell.nix
-			'';
+}
+" > shell.nix
+'';
 		};
 	};
 }
