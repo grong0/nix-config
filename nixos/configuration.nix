@@ -192,7 +192,7 @@
 	users.users.garrett = {
 		isNormalUser = true;
 		description = "Garrett";
-		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" "plugdev" "udev" ];
+		extraGroups = [ "networkmanager" "wheel" "docker" "dialout" "audio" "plugdev" "udev" "wpa_supplicant" ];
 		shell = pkgs.zsh;
 	};
 

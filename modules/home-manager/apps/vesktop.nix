@@ -1,15 +1,12 @@
 { pkgs, ... }: {
 	programs.vesktop = {
 		enable = true;
-		package = pkgs.vesktop;
+		package = pkgs.unstable.vesktop;
 		settings = {
 			
 		};
 	};
 	home = {
-		packages = with pkgs; [
-			vesktop
-		];
 		file = {
 			".config/vesktop/themes/system24.css".text = ''
 				/**

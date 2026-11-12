@@ -34,7 +34,11 @@
 				# extra
 				", preferred, auto, 1.0"
 			];
-			# xwayland.force_zero_scaling = true;
+
+			xwayland = {
+				force_zero_scaling = true;
+				use_nearest_neighbor = true;
+			};
 
 			exec-once = [
 				# "xrandr --newmode '1920x1080_80.00'  236.25  1920 2056 2264 2608  1080 1083 1088 1133 -hsync +vsync"
@@ -60,10 +64,10 @@
 				"4, monitor:DP-1"
 			];
 
-			# env = [
-			# 	"GDK_SCALE,2"
-			# 	"XCURSOR_SIZE,20"
-			# ];
+			env = [
+				"GDK_SCALE,2"
+				"XCURSOR_SIZE,20"
+			];
 
 			input = {
 				kb_layout = "us";
