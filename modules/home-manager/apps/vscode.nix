@@ -401,6 +401,7 @@
 				# Markdown
 				"[markdown]" = {
 					"editor.defaultFormatter" = "DavidAnson.vscode-markdownlint";
+					"editor.insertSpaces" = true;
 				};
 				# YAML
 				"[yaml]" = {
